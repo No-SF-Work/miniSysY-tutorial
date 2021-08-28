@@ -1,0 +1,16 @@
+{
+    "plugins": [
+         "-lunr", 
+	 "-search", 
+	 "search-pro",
+	 "expandable-chapters",
+	 "chapter-fold",
+	 "splitter",
+	 "github"
+    ],
+    "pluginsConfig":{
+	    "github":{
+	    "url":"https://github.com/BUAA-SE-Compiling/Slang-tutorial"
+	    }
+    }
+}
