@@ -2,6 +2,7 @@
 
 * [实验简介](README.md)
 * [报告要求](report.md)
+* [诚信](integrity.md)
 * [pre](yettocome.md)
 	* [antlr/bison/flex](yettocome.md)
 		* [实验指导](yettocome.md)	
