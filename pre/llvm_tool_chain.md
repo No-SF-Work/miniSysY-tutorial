@@ -6,36 +6,36 @@
 
 这部分会涉及到后面的知识，如果你看不懂一些地方，这是正常的。
 
-llvm工具链里有很多很有意思的工具，下面我们会选择几个对实验来说较为重要的工具进行介绍。
+LLVM 工具链里有很多很有意思的工具，下面我们会选择几个对实验来说较为重要的工具进行介绍。
 
 在开始介绍前，让我们先编写一个最简单的 a+b 程序,下面的介绍里我们会以这个程序作为输入文件。
 
 ``` c
 //main.c
 int main(){
-    int a =19260817;
-   	int b =42;
-    return a+b;
+	int a =19260817;
+	int b =42;
+	return a+b;
 }
 ```
 
-## clang
+## Clang
 
-clang 是 llvm project 的一个子项目，是基于 llvm 架构的`c/c++/obj-c`编译器前端。
+Clang 是 LLVM project 的一个子项目，是基于 LLVM 架构的 `c/c++/obj-c` 编译器前端。
 
-clang 的用法基本和 gcc 相同。
+Clang 的用法基本和 GCC 相同。
 
-可以在终端输入 `clang -help` 查看所有指令
+可以在终端输入 `clang -help` 查看所有指令。
 
 预计将在实验中用到的指令有
 
 ```shell
 clang main.c -o main #生成可执行文件
 clang -ccc-print-phases main.c #查看编译的过程
-clang  -E -fsyntax-only -Xclang -dump-tokens main.c #生成tokens
-clang  -fsyntax-only -Xclang -ast-dump main.c #生成语法树,-fsyntax-only的意思是防止编译器生成代码 
-clang -S  -emit-llvm main.c -o main.ll -O0 #生成llvm ir,不开优化
-clang -S  main.m -o main.s #生成汇编，本次实验里用处不大
+clang -E -Xclang -dump-tokens main.c #生成tokens
+clang -fsyntax-only -Xclang -ast-dump main.c #生成语法树 
+clang -S -emit-llvm main.c -o main.ll -O0 #生成llvm ir，不开优化
+clang -S main.m -o main.s #生成汇编，本次实验里用处不大
 clang -c main.m -o main.o #生成目标文件，本次实验里用处不大
 ```
 
@@ -43,7 +43,7 @@ clang -c main.m -o main.o #生成目标文件，本次实验里用处不大
 
 ## lli
 
-lli 以 `.bc` 的格式解释（或者 JIT 编译）执行程序，他也能直接解释运行 `.ll`格式的文件。
+lli 以 `.bc` 的格式解释（或者 JIT 编译）执行程序，他也能直接解释运行 `.ll` 格式的文件。
 
 在实验中，我们只需要用最简单的形式直接输入指令使用即可。
 
@@ -60,16 +60,16 @@ lli main.ll
 
 ``` shell
 echo $?
-187   #(19260817+42) mod 256
+187  #(19260817+42) mod 256
 ```
 
 ## llvm-link
 
-lli 仅能解释单个 `.ll` 或者是 `.bc`格式的文件，当我们想要使用别的库的时候，就需要用到llvm-link
+lli 仅能解释单个 `.ll` 或者是 `.bc`格式的文件，当我们想要使用别的库的时候，就需要用到llvm-link。
 
-在本实验中，我们引入了 `libsysy`(libsysy在<u>这里</u>//todo)以后,会用到库里面的IO函数
+在本实验中，我们引入了 `libsysy` (在<u>[这里](http://transfer.sh/R6fivF/libsysy.zip)</u>)以后,会用到库里面的 IO 函数
 
-比如，如果我们想要输出一个int的值，需要用到 `putint()`这个函数，把 main.c 改成了下面的样子
+比如，如果我们想要输出一个int的值，需要用到 `putint()` 这个函数，于是我们把 main.c 改成下面的样子
 
 ``` c
 int main() {
@@ -80,7 +80,7 @@ int main() {
 }
 ```
 
-如果我们按照上面的方法直接解释运行 main.ll 的话，会变成
+如果我们按照上面的方法直接解释运行 `main.ll` 的话，会变成
 
 ```shell
 lli main.ll
@@ -90,9 +90,9 @@ Stack dump:
 zsh: segmentation fault (core dumped)  lli main.ll
 ```
 
-这是因为 lli 只解释了 main.ll 这一个文件，找不到库函数 `putint`在哪，这时候就需要 llvm-link 了。
+这是因为 lli 只解释了 main.ll 这一个文件，找不到库函数 `putint` 在哪，这时候就需要 llvm-link 了。
 
-llvm-link 能够将多个 `.bc`或者是`.ll`格式的文件链接为一个文件
+llvm-link 能够将多个 `.bc` 或者是 `.ll` 格式的文件链接为一个文件，比如
 
 ``` shell
 # 1.我们先分别导出 libsysy 和 main.c 的 .ll 文件
@@ -107,7 +107,7 @@ lli out.ll
 
 ## 其他可能有用的指令
 
-**llc** : 将`.ll`形式的文件编译到指定的体系结构的汇编语言
+**llc**：将 `.ll` 形式的文件编译到指定的体系结构的汇编语言
 
-**opt**: LLVM模块化的优化器和分析器。它将LLVM源文件作为输入，对其运行指定的优化或分析，然后输出优化文件或分析结果。这个指令会在挑战任务的时候介绍，在此不再展开。
+**opt**：LLVM模块化的优化器和分析器。它将LLVM源文件作为输入，对其运行指定的优化或分析，然后输出优化文件或分析结果。这个指令会在挑战任务的时候介绍，在此不再展开。
 
