@@ -18,7 +18,7 @@ lli --version #查看版本，若出现版本信息则说明安装成功
 
 ### Ubuntu 18.04
 
-llvm 18.04 版本里默认的llvm是 6.0 版本的，并不满足我们的需求。 你需要
+Ubuntu 18.04 版本里默认的llvm是 6.0 版本的，并不满足我们的需求。 你需要
 
 ```shell
 sudo apt-get install clang-10
