@@ -1,56 +1,74 @@
-# llvm工具链下载
+# LLVM 相关工具链下载
 
-### Ubuntu 20.04
+**注意**：在我们的实验中要求 Clang 和 LLVM 的版本至少为 10.0。
 
-Ubuntu 20.04 版本官方源里面的 LLVM 和 Clang 是 10 版本的，已经满足我们的需求（LLVM 以及 Clang 版本大于10即可）
+## Ubuntu
 
-我们用新的 Ubuntu20.04 iso 试过，直接 apt-get 就行
+### 20.04 或更新版本
 
-```shell
-sudo apt-get install llvm
-sudo apt-get install clang
-```
+对于 Ubuntu 20.04 或更新版本，官方源中的 LLVM 版本已经默认为 10+，因此执行以下命令即可安装：
 
 ```shell
-clang -v # 查看版本，若出现版本信息则说明安装成功
-lli --version # 查看版本，若出现版本信息则说明安装成功 
+$ sudo apt-get install llvm
+$ sudo apt-get install clang
 ```
 
-### Ubuntu 18.04
-
-Ubuntu 18.04 版本里默认的 LLVM 是 6.0 版本的，并不满足我们的需求。 你需要
+安装完成后可以通过以下命令进行测试：
 
 ```shell
-sudo apt-get install clang-10
-sudo apt-get install llvm-10
+$ clang -v # 查看版本，若出现版本信息则说明安装成功
+$ lli --version # 查看版本，若出现版本信息则说明安装成功
 ```
 
-然后在需要使用`clang`和`lli,llc,llvm-link`的地方的末尾加上`-10 ` (或者用 `alias` 设置别名 )
+### 18.04
+
+对于 Ubuntu 18.04，官方源中的 LLVM 版本仍然停留在 6.0，因此你需要在安装时额外指定版本号：
 
 ```shell
-clang-10 -v # 查看版本，若出现版本信息则说明安装成功
-lli-10 --version # 查看版本，若出现版本信息则说明安装成功 
+$ sudo apt-get install llvm-10
+$ sudo apt-get install clang-10
 ```
 
-如果你使用的是小于 18.04 版本的 Ubuntu， 快更新吧。
+相应的，使用时也需要在末尾额外加上 `-10` 用来指定版本，如 `clang-10` 或 `lli-10`。（当然你也可以用 `alias` 设置别名）
 
-### Redhat 系 Arch系 以及除了 Ubuntu 的 Debian 系
-
-因为问卷里面连上2名助教总共只有三个人用，所以不写了
-
-剩下的那位同学请自己下载 ~~Fly B\*\*\*h~~ 
-
-### MacOS
-
-如果你没有下载 Xcode ，快去下载，如果你有 Xcode ，那应该是带有 LLVM 以及 Clang 的。
+完成安装后可以通过以下命令进行测试：
 
 ```shell
-clang -v #查看版本，若出现版本信息则说明安装成功
-lli --version #查看版本，若出现版本信息则说明安装成功 
+$ clang-10 -v # 查看版本，若出现版本信息则说明安装成功
+$ lli-10 --version # 查看版本，若出现版本信息则说明安装成功
 ```
 
-### Windows
+### 更老版本
 
-“他们都大三了，该让他们使用 *nix 的东西了，不用写 Windows 的教程。”——邵老师
+快去更新。
 
-用 Windows 也是可以的，请自行摸索。
+## Redhat/Arch/...（Ubuntu/Debian 以外的）
+
+因为问卷里面连上 2 名助教总共只有三个人用，所以不写了。通过包管理器下载 Clang 和 LLVM 即可（记得注意版本号）。
+
+> ~~Fly B\*\*\*h~~
+
+## macOS
+
+在 macOS 上，如果你已经安装过 XCode 或 XCode Command Line Tools，则其默认已经附带了 LLVM 工具链。
+
+你可以在「终端」应用中输入以下命令进行测试：
+
+```shell
+$ clang -v # 查看 Clang 版本，若出现版本信息则说明安装成功
+$ lli --version # 查看 LLVM 版本，若出现版本信息则说明安装成功
+```
+
+否则，你需要安装 XCode，或者运行以下命令安装 XCode Command Line Tools：
+
+```shell
+$ xcode-select --install
+```
+
+## Windows
+
+> “他们都大三了，该让他们使用 *nix 的东西了，不用写 Windows 的教程。”
+>
+> ——邵老师
+
+当然在 Windows 上也可以安装相应的 Clang+LLVM 工具链，请自行摸索。
