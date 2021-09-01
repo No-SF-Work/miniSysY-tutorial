@@ -11,14 +11,10 @@ sudo apt-get install llvm
 sudo apt-get install clang
 ```
 
-
-
 ```shell
 clang -v #查看版本，若出现版本信息则说明安装成功
 lli --version #查看版本，若出现版本信息则说明安装成功 
 ```
-
-![image-20210901224635786](/home/ai/.config/Typora/typora-user-images/image-20210901224635786.png)
 
 ### Ubuntu 18.04
 
