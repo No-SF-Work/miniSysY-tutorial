@@ -10,7 +10,7 @@
 	* llvm 和llvm ir
 		* [llvm 工具链下载](pre/llvm_download.md)	
 		* [llvm 工具链介绍](pre/llvm_tool_chain.md)
-		* [llvm IR 快速上手](pre/llvm_ir_quici_primer.md)
+		* [llvm IR 快速上手](pre/llvm_ir_quick_primer.md)
 * [1: main与注释 ](yettocome.md)
 	* [part1:仅有main函数与返回0的编译器](yettocome.md)
 		* [实验指导](yettocome.md)	
