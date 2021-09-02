@@ -16,6 +16,7 @@ git add .
 git commit -m "auto build"
 git push origin gh-pages
 git checkout master
+echo "build succeeded"
 else
 echo "build failed"
 fi
