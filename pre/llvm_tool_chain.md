@@ -15,7 +15,7 @@ int main(){
 }
 ```
 
-## `clang`
+## Clang
 
 Clang 作为 LLVM project 的一个子项目，是 LLVM 项目中 `c/c++/obj-c` 语言的前端，其用法与 GCC 基本相同。
 
@@ -44,7 +44,7 @@ $ clang -c main.m -o main.o
 
 请尝试在命令行中输入这些命令，并看看都输出了什么。我们会在后面对其进行详细介绍。
 
-## `lli`
+## lli
 
 `lli` 会解释或以 JIT 的形式运行 `.bc` 和 `.ll` 程序。其中，`.bc` 是 LLVM IR 的二进制格式（方便存储），`.ll` 是 LLVM IR 的可读代码格式（给人看的）。
 
@@ -65,7 +65,7 @@ $ echo $?
 187  # 即 (19260817 + 42) % 256
 ```
 
-## `llvm-link`
+## llvm-link
 
 `lli` 仅能运行单个 `.ll` 或 `.bc` 格式的文件，当我们想要使用别的库的时候，就需要用到 `llvm-link`。
 
