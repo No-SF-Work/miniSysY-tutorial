@@ -2,9 +2,7 @@
 
 **如果你还没有完成工具链的下载，请转到 todo。**
 
-这部分会涉及到后面的知识，看不懂其中的一些地方是正常的。如果你对 LLVM 工具链和 LLVM IR 比较熟悉，可以直接跳过此节。
-
-LLVM 工具链里有很多有意思的工具，下面我们会选择其中对实验较为重要的几个进行介绍。
+LLVM 工具链里有很多有意思的工具，下面我们会选择其中对实验较为重要的几个进行介绍。这部分会涉及到后面的知识，看不懂其中的一些地方是正常的。如果你对 LLVM 工具链和 LLVM IR 比较熟悉，可以直接跳过此节。
 
 在开始介绍前，让我们先编写一个最简单的 a + b 程序作为测试文件。
 
@@ -53,10 +51,10 @@ $ clang -c main.m -o main.o
 在实验中，我们只需要用最简单的形式直接使用指令即可。以 `main.c` 为例：
 
 ```shell
-# 1.我们首先生成 main.c 对应的 .ll 格式的文件
+# 1.生成 main.c 对应的 .ll 格式的文件
 $ clang -S  -emit-llvm main.c -o main.ll -O0
 
-# 2.我们使用 lli 解释执行生成的 .ll 文件
+# 2.用 lli 解释执行生成的 .ll 文件
 $ lli main.ll
 ```
 
@@ -101,11 +99,11 @@ zsh: segmentation fault (core dumped)  lli main.ll
 `llvm-link` 能够将多个 `.ll` 或 `.bc` 格式的文件链接为一个文件，例如：
 
 ``` shell
-# 1. 先分别导出 libsysy 和 main.c 对应的的 .ll 文件
+# 1. 分别导出 libsysy 和 main.c 对应的的 .ll 文件
 $ clang -emit-llvm -S libsysy.c -o lib.ll
 $ clang -emit-llvm -S main.c -o main.ll
 
-# 2. 然后使用 llvm-link 将两个文件链接，生成新的 IR 文件
+# 2. 使用 llvm-link 将两个文件链接，生成新的 IR 文件
 $ llvm-link main.ll lib.ll  -o out.ll
 
 # 3. 用 lli 解释运行
