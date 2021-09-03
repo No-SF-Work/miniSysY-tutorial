@@ -4,7 +4,7 @@
 * [报告要求](report.md)
 * [诚信](integrity.md)
 * [pre](pre/pre.md)
-	* [antlr/bison/flex](yettocome.md)
+	* [flex/bison/ANTLR](pre/generator.md)
 		* [实验指导](yettocome.md)	
 		* [任务简介](yettocome.md)
 	* llvm 和llvm ir
