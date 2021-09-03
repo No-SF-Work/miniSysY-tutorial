@@ -16,7 +16,8 @@
 	    "url":"https://github.com/BUAA-SE-Compiling/Slang-tutorial"
 	    },
 	     "prism": {
-   		 "css": ["prismjs/themes/prism-solarizedlight.css"]
+   		"lang":{"shell":"bash"},
+		"css": ["prismjs/themes/prism-solarizedlight.css"]
   		}
     }
 }
