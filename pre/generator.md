@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
 }
 ```
 
-其中 `yylex()` 是 flex 的词法分析例程，默认读取 stdin。
+其中 `yylex()` 是 flex 的生成的函数，对输入进行词法分析并完成指定的动作，默认读取 stdin。
 
 编写完成词法规则后，可以使用 flex 生成对应的 C 代码文件。
 
