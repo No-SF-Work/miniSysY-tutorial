@@ -173,7 +173,7 @@ bison 源文件的扩展名为 `.y`，分为声明、定义、规则、用户子
 ```
 
 - `LPAREN, RPAREN, ADDOP` 等 token 名称在 bison 源文件的定义部分被定义，由 bison 生成语法分析器代码后，定义在 `calc.tab.h` 文件中。
-- `yylval` 是 flex 的全局变量，可以在 flex 和 bison 之间传值。这里的 `yylval` 的类型是一个 `union { char op; double num; }`，该类型在 bison 源文件的定义部分中定义。
+- `yylval` 是 flex 的全局变量，可以在 flex 和 bison 之间传值，默认类型是 `int`。这里的 `yylval` 的类型是 `union { char op; double num; }`，该类型在 bison 源文件的定义部分中定义。
 
 然后编写 bison 的源文件 `calc.y`。
 
