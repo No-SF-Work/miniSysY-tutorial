@@ -463,11 +463,11 @@ ANTLR 提供了 Listener 和 Visitor 两种模式来完成语法树的遍历，�
 
 在使用 ANTLR 生成的代码时，你需要定义一个类继承 BaseListener 或 BaseVisitor，在其中重写遍历到每个节点时所调用的方法，完成从语法树翻译到 IR 的翻译工作。
 
-Listener 模式中对每个语法树节点定义了一个 enter 方法和一个 exit 方法，如 `void enterExpr(calcParser.ExprContext ctx)` 和 `void exitExpr(calcParser.ExprContext ctx);`。遍历语法树时，程序会自动遍历所有节点，遍历到该节点时调用 enter 方法，离开该节点时调用 exit 方法，你需要在 enter 和 exit 方法中实现翻译工作。
+Listener 模式中为每个语法树节点定义了一个 enterXXX 方法和一个 exitXXX 方法，如 `void enterExpr(calcParser.ExprContext ctx)` 和 `void exitExpr(calcParser.ExprContext ctx)`。遍历语法树时，程序会自动遍历所有节点，遍历到一个节点时调用 enter 方法，离开一个节点时调用 exit 方法，你需要在 enter 和 exit 方法中实现翻译工作。
 
-Vistor 模式中对每个语法树节点定义了返回值类型为一个泛型的 visitXXX 方法，如 `T visitExpr(calcParser.ExprContext ctx)`。遍历语法树时，你需要调用一个 `Visitor` 对象的 `visit` 方法遍历语法树的根节点，`visit` 方法会根据传入的节点类型调用对应的 visitXXX 方法。你需要在 visitXXX 方法中实现翻译工作，在翻译工作中，调用 `visit` 方法来手动遍历语法树中的其他节点。
+Vistor 模式中为每个语法树节点定义了返回值类型为一个泛型的 visitXXX 方法，如 `T visitExpr(calcParser.ExprContext ctx)`。遍历语法树时，你需要调用一个 `Visitor` 对象的 `visit` 方法遍历语法树的根节点，`visit` 方法会根据传入的节点类型调用对应的 visitXXX 方法。你需要在 visitXXX 方法中实现翻译工作，在翻译工作中，调用 `visit` 方法来手动遍历语法树中的其他节点。
 
-我们可以发现：Listener 模式中方法没有返回值，而 Vistor 模式中方法的返回值是一个泛型，类型是统一的，并且两种模式中的方法都不支持传参。在我们需要手动操纵返回值和参数时，可以定义一些属性用于传递。
+我们可以发现：Listener 模式中方法没有返回值，而 Vistor 模式中方法的返回值是一个泛型，类型是统一的，并且两种模式中的方法都不支持传参。在我们需要手动操纵返回值和参数时，可以定义一些属性用于传递变量。
 
 Listener 模式中会按顺序恰好遍历每个节点一次，进入或者退出一个节点的时候调用你实现的对应方法。Vistor 模式中对树的遍历是可控的，你可以遍历时跳过某些节点或重复遍历一些节点，在翻译时推荐使用 Visitor 模式。
 
