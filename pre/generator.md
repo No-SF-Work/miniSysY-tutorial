@@ -104,7 +104,7 @@ collect2: error: ld returned 1 exit status
 
 观察报错信息会发现它说找不到 `yywrap()` 这个函数的位置。这是因为在 flex 2.5.4 版本之后，当程序扫描到 `EOF` 时会调用 `yywrap()` 函数来判断是否还有其他的输入，如果 `yywrap()` 返回 0，则程序用来读取输入的指针会在 `yywrap()` 被重定向到另一个输入并且继续读取；反之，如果 `yywrap()` 返回 1，则说明没有其他输入。
 
-在这里，我们可以链接 `fl` 库，调用其中默认会返回 1 的 `yywrap()` 函数（因为我们只会读取一个输入），即使用 `gcc lex.yy.c -o word_char_counter -lfl` 。或者也可以在源文件的开头加上一行 `%option noyywrap`，表示不调用 `yywrap()`，从而解决链接错误。
+在这里，你可以链接 `fl` 库，调用其中默认会返回 1 的 `yywrap()` 函数（只需要读取一个输入文件或 stdin），即使用 `gcc lex.yy.c -o word_char_counter -lfl` 。或者也可以在源文件的开头加上一行 `%option noyywrap`，表示不调用 `yywrap()`，从而解决链接错误。
 
 ```bash
 $ ./word_car_counter
@@ -151,7 +151,7 @@ $ sudo apt install bison
 
 bison 通常与 flex 配合使用（flex 负责解析词法，bison 负责解析语法）。通常的做法是先使用 flex 对输入文本进行词法分析并生成 token 流，然后由 bison 读取用户提供的语法规则，生成用于解析 token 流的代码，再由这部分生成的代码来解析 token 流。
 
-bison 源文件的扩展名为 `.y`，分为「声明」、「定义」、「规则」、「用户子程序」四部分。我们以一个四则运算计算器为示例介绍 bison 和 flex 的配合使用，其文法如下（与本章开头的文法相同）：
+bison 源文件的扩展名为 `.y`，分为「声明」、「定义」、「规则」、「用户子程序」四部分。下面以一个四则运算计算器为示例介绍 bison 和 flex 的配合使用，其文法如下（与本章开头的文法相同）：
 
 ```c
 expr -> term | expr '+' term | expr '-' term
@@ -225,7 +225,7 @@ bison 会将「规则」部分中第一个规则左部的非终结符作为语�
 
 「规则」中的非终结符都不需要预先定义，因为一个符号是否为非终结符可以由 bison 通过所有规则的左部推断出来。对于终结符，单字符的终结符可以直接使用单引号包裹，多字符的终结符则需要在定义部分中定义，由 bison 为其分配一个编号。
 
-下面我们将已有的文法翻译成 bison 源文件：
+下面将已有的文法翻译成 bison 源文件：
 
 ```c
 /* calc.y */
@@ -303,7 +303,7 @@ $ bison -d calc.y
 # -d 选项表示同时生成头文件，方便和 flex 联动
 ```
 
-我们编写一个驱动程序，调用 bison 生成的 `yyparse()` 函数来解析输入的字符串。
+下面编写一个驱动程序，调用 bison 生成的 `yyparse()` 函数来解析输入的字符串。
 
 ```c
 /* driver.c */
@@ -347,25 +347,142 @@ ANTLR 支持多种代码生成目标，包括 Java、C++、C#、Python、Go、Ja
 
 ### 安装 ANTLR
 
-- [ ] TODO
+ANTLR 是用 Java 编写的，安装 ANTLR 只需要从 [ANTLR 官网](https://www.antlr.org/) 下载最新的 jar 包，并放在合适的位置。该 jar 包中包含 ANTLR 工具本身和运行 ANTLR 生成的 java 代码所需的运行时库。如果你需要运行 ANTLR 生成的其他语言的代码，需要从官网额外下载对应语言的运行时库。
 
 #### Ubuntu
 
+从官网下载最新的 jar 包，放在你认为合适的位置。如：
+
+```shell
+$ mkdir antlr && cd antlr
+$ curl -O https://www.antlr.org/download/antlr-4.9.2-complete.jar
+```
+
+你可以直接通过 Java 执行 jar 包的方式运行 ANTLR，如：
+
+```bash
+$ java -jar antlr-4.9.2-complete.jar
+```
+
 #### MacOS
+
+- [ ] TODO
 
 #### Windows
 
 自行探索
 
-### ANTLR 的文法文件：`.g4`
+### ANTLR 的语法文件：`.g4`
+
+ANTLR 源文件的扩展名为 `.g4`，ANTLR 读入 `.g4` 文件，生成对应的词法分析程序和语法分析程序。
+
+在 `.g4` 文件的开头，你需要给文件中定义的语法起个名字，名字必须和文件名相同。
+
+```c
+// calc.g4
+grammar calc;
+```
+
+ANTLR 中的注释和 C 语言相同。
+
+首先定义词法解析规则，ANTLR 约定词法解析规则以大写字母开头。和 bison 类似，ANTLR 使用 `:` 代表一个 BNF 文法中的 `->` 或 `::=`；同一终结符/非终结符的不同规则使用 `|` 分隔；使用 `;` 表示一条终结符/非终结符的规则的结束。
+
+```c
+// calc.g4
+LPAREN: '(';
+RPAREN: ')';
+ADD: '+';
+SUB: '-';
+MUL: '*';
+DIV: '/';
+NUMBER: [0-9]+ | [0-9]+ '.' [0-9]* | [0-9]* '.' [0-9]+;
+RET: '\r\n' | '\n' | '\r';
+WHITE_SPACE: [ \t] -> skip; // -> skip 表示解析时跳过该规则
+```
+
+然后定义语法解析规则，ANTLR 约定语法解析规则以小写字母开头。ANTLR 默认第一个语法规则左部的非终结符作为语法的起始符号。
+
+```c
+// calc.g4
+calculator: line*;
+line: expr RET;
+expr: expr ADD term | expr SUB term | term;
+term: factor | term MUL factor | term DIV factor;
+factor: LPAREN expr RPAREN | NUMBER;
+```
+
+前面提到，ANTLR 基于 LL(*) 分析技术，这是一种自顶向下的分析方法。在课程中我们会学到，自顶向下的分析方法不能处理具有左递归的文法。但在 ANTLR 的实现中进行了一些改良，如果直接左递归规则中存在一个非左递归的选项，它是可以处理的，如 `expr: expr ADD term | expr SUB term | term;` 中有一个选项 `term`，但是 ANTLR 仍然不能处理没有非左递归选项的左递归规则以及间接左递归。
+
+>  ANTLR 隐式地允许指定运算符优先级，规则中排在前面的选项优先级比后面的选项优先级更高，所以你甚至可以把文法改写成这样：
+>
+> ```c
+> // calc.g4
+> calculator: line*;
+> line: expr RET;
+> expr: expr MUL expr | expr DIV expr | expr ADD expr | expr SUB expr | NUMBER | LPAREN expr RPAREN;
+> ```
+
+> ANTLR 官方提供了一些常见语言的语法规则文件，见 https://github.com/antlr/grammars-v4
+
+### 使用 ANTLR 生成代码
+
+编写完成 ANTLR 的语法文件后，将 `.g4` 文件作为一项参数，运行 ANTLR，可生成对应的解析程序，默认生成 Java 代码。
+
+```shell
+$ java -jar antlr-4.9.2-complete.jar calc.g4
+```
+
+如果你需要生成其他语言的代码，可以在运行 ANTLR 时通过 `-Dlanguage=` 来指定，如：
+
+```shell
+$ java -jar antlr-4.9.2-complete.jar -Dlanguage=Cpp calc.g4
+# 生成 C++ 代码
+```
+
+ANTLR 在完成语法分析后，会生成一棵程序对应的语法树。例如对于如下字符串：
+
+```
+1919 * 810.114
+(5 - 1) * 4
+
+```
+
+生成的语法树如图所示：
+
+![语法树.png](https://i.loli.net/2021/09/04/cVauGo3dwRiIxWC.png)
+
+### 遍历语法树
+
+ANTLR 提供了 Listener 和 Visitor 两种模式来完成语法树的遍历，默认生成的是 Listener 模式的代码，如果要生成 Vistor 模式的代码，需要运行选项中加上 `-visitor`，如果要关闭生成 Listener 模式的代码，需要运行选项中加上 `-no-listener`。
+
+下面以生成 Java 代码为例进行介绍。
+
+上面的例子中，ANTLR 生成的文件包括 `calc.interp`、`calc.tokens`、`calcBaseListener.java`、`calcLexer.interp`、`calcLexer.java`、`calcLexer.tokens`、`calcListener.java`、`calcParser.java`（如果开启了 Visitor 模式，还包括 `calcBaseVisitor.java` 和 `calcVisitor.java`）。`calcLexer.java` 是词法分析程序，`calcParser.java` 是语法分析程序。`*.tokens` 文件中包括一系列 token 的名称和对应的值，用于词法分析和语法分析。`*.interp` 包含一些 ANTLR 内置的解释器需要的数据，用于 IDE 调试语法。
+
+我们重点关注 `calcListener.java` 和 `calcVisitor.java`，它们是 Listener 模式和 Visitor 模式的接口，`calcBaseListener.java` 和 `calcBaseVisitor.java` 是对应接口的默认实现。
+
+在使用 ANTLR 生成的代码时，你需要定义一个类继承 BaseListener 或 BaseVisitor，在其中重写遍历到每个节点时所调用的方法，完成从语法树翻译到 IR 的翻译工作。
+
+Listener 模式中对每个语法树节点定义了一个 enter 方法和一个 exit 方法，如 `void enterExpr(calcParser.ExprContext ctx)` 和 `void exitExpr(calcParser.ExprContext ctx);`。遍历语法树时，程序会自动遍历所有节点，遍历到该节点时调用 enter 方法，离开该节点时调用 exit 方法，你需要在 enter 和 exit 方法中实现翻译工作。
+
+Vistor 模式中对每个语法树节点定义了返回值类型为一个泛型的 visitXXX 方法，如 `T visitExpr(calcParser.ExprContext ctx)`。遍历语法树时，你需要调用一个 `Visitor` 对象的 `visit` 方法遍历语法树的根节点，`visit` 方法会根据传入的节点类型调用对应的 visitXXX 方法。你需要在 visitXXX 方法中实现翻译工作，在翻译工作中，调用 `visit` 方法来手动遍历语法树中的其他节点。
+
+我们可以发现：Listener 模式中方法没有返回值，而 Vistor 模式中方法的返回值是一个泛型，类型是统一的，并且两种模式中的方法都不支持传参。在我们需要手动操纵返回值和参数时，可以定义一些属性用于传递。
+
+Listener 模式中会按顺序恰好遍历每个节点一次，进入或者退出一个节点的时候调用你实现的对应方法。Vistor 模式中对树的遍历是可控的，你可以遍历时跳过某些节点或重复遍历一些节点，在翻译时推荐使用 Visitor 模式。
+
+- [ ] TODO: 介绍 visit 细节
+
+### 运行 ANTLR 生成的代码
+
+#### 运行 ANTLR 生成的 C++ 代码
 
 - [ ] TODO
 
-### ANTLR 的使用
+#### 运行 ANTLR 生成的 Java 代码
 
 - [ ] TODO
 
-#### 生成 C++ 代码
+### ANTLR 辅助工具
 
-#### 生成 Java 代码
-
+- [ ] TODO
