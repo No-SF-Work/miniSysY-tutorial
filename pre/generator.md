@@ -72,7 +72,7 @@ int words = 0;
 
 在规则部分中，标识符 `yytext` 是一个指针，指向匹配到的输入字符串。
 
-如果要将 flex 与 bison（后面会介绍的用来生成语法解析器的工具）配合使用，那么你可以不写「用户子程序」部分；否则，你就必须通过编写「用户子程序」来使用词法解析得到的信息。
+如果要将 flex 与 bison（后面会介绍的用来生成语法解析器的工具）或其他你自行编写的程序配合使用，那么你可以不写「用户子程序」部分；否则，你就需要通过编写「用户子程序」来使用词法解析得到的信息。
 
 ```c
 /* word_char_counter.l */
@@ -298,8 +298,8 @@ void yyerror(const char *s)
 代码全部编写完成后，分别使用 flex 和 bison 生成词法分析程序和语法分析程序。flex 生成的词法分析程序文件是 `lex.yy.c`，bison 生成的语法分析程序文件包括 `calc.tab.c, calc.tab.h`。
 
 ```bash
-flex calc.l
-bison -d calc.y
+$ flex calc.l
+$ bison -d calc.y
 # -d 选项表示同时生成头文件，方便和 flex 联动
 ```
 
@@ -318,7 +318,7 @@ int main() {
 将这些文件放到一起编译并生成二进制文件：
 
 ```bash
-gcc lex.yy.c calc.tab.c driver.c -o calc
+$ gcc lex.yy.c calc.tab.c driver.c -o calc
 ```
 
 调用二进制文件就可以得到一个简单的计算机应用：
