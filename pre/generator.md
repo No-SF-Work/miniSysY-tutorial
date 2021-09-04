@@ -43,7 +43,7 @@ $ sudo apt install flex
 
 flex 源文件的扩展名为 `.l`，分为「声明」、「规则」、「用户子程序」三部分。下面我们以生成一个用于统计文本中单词和字母个数的词法分析器的例子来介绍 flex 的使用。
 
-#### 生成 C 语言代码
+#### 生成 C 代码
 
 flex 会读取一个 `*.l` 或者 `*.lex` 文件里的词法规则，并将生成的词法分析器代码写入 `lex.yy.c`。
 
@@ -51,7 +51,7 @@ flex 会读取一个 `*.l` 或者 `*.lex` 文件里的词法规则，并将生�
 
 ```c
 /* word_char_counter.l */
-/* 在这里我们要统计字符数和词书，因此需要声明这两个统计变量 */
+/* 在这里我们要统计字符数和单词数，因此需要声明这两个统计变量 */
 %{
 #include <string.h>
 int chars = 0;
@@ -94,7 +94,7 @@ $ gcc lex.yy.c -o word_char_counter
 
 但是如果你像这样直接进行编译，会出现下面这样的报错信息：
 
-```
+```shell
 /usr/bin/ld: /tmp/cc1qil64.o: in function `yylex':
 lex.yy.c:(.text+0x4b8): undefined reference to `yywrap'
 /usr/bin/ld: /tmp/cc1qil64.o: in function `input':
@@ -113,11 +113,11 @@ Hello, flex.
 I found 2 words of 9 chars.
 ```
 
-#### 生成 C++ 语言代码
+#### 生成 C++ 代码
 
 - [ ] TODO
 
-#### 生成 Java 语言代码
+#### 生成 Java 代码
 
 - [ ] TODO
 
@@ -364,3 +364,8 @@ ANTLR 支持多种代码生成目标，包括 Java、C++、C#、Python、Go、Ja
 ### ANTLR 的使用
 
 - [ ] TODO
+
+#### 生成 C++ 代码
+
+#### 生成 Java 代码
+
