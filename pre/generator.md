@@ -475,14 +475,15 @@ Listener 模式中会按顺序恰好遍历每个节点一次，进入或者退�
 
 ### 运行 ANTLR 生成的代码
 
-#### 运行 ANTLR 生成的 C++ 代码
+#### 运行 ANTLR 生成的 Java 代码
 
 - [ ] TODO
 
-#### 运行 ANTLR 生成的 Java 代码
+#### 运行 ANTLR 生成的 C++ 代码
 
 - [ ] TODO
 
 ### ANTLR 辅助工具
 
-- [ ] TODO
+- [ ] TODO: 介绍 ANTLR preview
+
