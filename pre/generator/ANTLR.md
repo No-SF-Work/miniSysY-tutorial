@@ -130,8 +130,6 @@ Vistor 模式中为每个语法树节点定义了返回值类型为一个泛型�
 
 Listener 模式中会按顺序恰好遍历每个节点一次，进入或者退出一个节点的时候调用你实现的对应方法。Vistor 模式中对树的遍历是可控的，你可以遍历时跳过某些节点或重复遍历一些节点，在翻译时推荐使用 Visitor 模式。
 
-- [ ] TODO: 介绍 visit 细节
-
 ## 运行 ANTLR 生成的代码
 
 ### 运行 ANTLR 生成的 Java 代码
@@ -186,6 +184,171 @@ $ java Main
 - [ ] TODO
 
 ## 基于 ANTLR 生成的代码编写你的代码（以 Java 为例）
+
+下面我们将以 Java 为例，介绍如何基于 ANTLR 生成的代码实现一个四则运算计算器。
+
+首先定义一个 `Visitor` 类，继承 `calcBaseVisitor`，类型参数决定了所有 visitXXX 方法的返回值类型，这里设为 `Void`。所有的 visitXXX 方法默认调用父类对象的对应方法。
+
+```java
+// Visitor.java
+public class Visitor extends calcBaseVisitor<Void> {
+    @Override
+    public Void visitCalculator(calcParser.CalculatorContext ctx) {
+        return super.visitCalculator(ctx);
+    }
+
+    @Override
+    public Void visitLine(calcParser.LineContext ctx) {
+        return super.visitLine(ctx);
+    }
+
+    @Override
+    public Void visitExpr(calcParser.ExprContext ctx) {
+        return super.visitExpr(ctx);
+    }
+
+    @Override
+    public Void visitTerm(calcParser.TermContext ctx) {
+        return super.visitTerm(ctx);
+    }
+
+    @Override
+    public Void visitFactor(calcParser.FactorContext ctx) {
+        return super.visitFactor(ctx);
+    }
+}
+```
+
+在每个非终结符对应的方法处，填写我们需要编译器在语法树上遍历到该非终结符对应的节点时执行的动作。
+
+```java
+public class Visitor extends calcBaseVisitor<Void> {
+    private double nodeValue = 0.0;
+
+    @Override
+    public Void visitCalculator(calcParser.CalculatorContext ctx) {
+        // 调用默认的 visit 方法即可
+        return super.visitCalculator(ctx);
+    }
+
+    @Override
+    public Void visitLine(calcParser.LineContext ctx) {
+        // visit expr 对应的子节点，输出 nodeValue
+        visit(ctx.expr());
+        System.out.println(" = " + nodeValue);
+        return null;
+    }
+
+    @Override
+    public Void visitExpr(calcParser.ExprContext ctx) {
+        switch (ctx.children.size()) {
+            case 1 -> {
+                // 有 1 个子节点，表示匹配的规则是 expr -> term，直接 visit term 对应的子节点
+                visit(ctx.term());
+            }
+            case 3 -> {
+                // 有 3 个子节点，表示匹配的规则是 expr -> expr ADD term | expr SUB term
+                // visit expr 和 term 对应的子节点，获取节点对应的值，根据运算符是 ADD 或 SUB 进行不同运算
+                double lhs = 0.0, rhs = 0.0, result = 0.0;
+                visit(ctx.expr());
+                lhs = nodeValue;
+                visit(ctx.term());
+                rhs = nodeValue;
+                if (ctx.ADD() != null) {
+                    result = lhs + rhs;
+                } else {
+                    result = lhs - rhs;
+                }
+                nodeValue = result;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Void visitTerm(calcParser.TermContext ctx) {
+        switch (ctx.children.size()) {
+            case 1 -> {
+                // 有 1 个子节点，表示匹配的规则是 term -> factor，直接 visit factor 对应的子节点
+                visit(ctx.factor());
+            }
+            case 3 -> {
+                // 有 3 个子节点，表示匹配的规则是 term -> term MUL factor | term DIV factor
+                // visit term 和 factor 对应的子节点，获取节点对应的值，根据运算符是 MUL 或 DIV 进行不同运算
+                double lhs = 0.0, rhs = 0.0, result = 0.0;
+                visit(ctx.term());
+                lhs = nodeValue;
+                visit(ctx.factor());
+                rhs = nodeValue;
+                if (ctx.MUL() != null) {
+                    result = lhs * rhs;
+                } else {
+                    result = lhs / rhs;
+                }
+                nodeValue = result;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Void visitFactor(calcParser.FactorContext ctx) {
+        switch (ctx.children.size()) {
+            case 1 -> {
+                // 有 1 个子节点，表示匹配的规则是 factor -> NUMBER，将 NUMBER 对应的字符串转换成数字
+                nodeValue = Double.parseDouble(ctx.NUMBER().getText());
+            }
+            case 3 -> {
+                // 有 3 个子节点，表示匹配的规则是 factor -> LPAREN expr RPAREN，直接 visit expr 对应的子节点
+                visit(ctx.expr());
+            }
+        }
+        return null;
+    }
+}
+
+```
+
+修改 `Main.java`，使用我们编写的 Visitor。
+
+```java
+// Main.java
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
+public class Main {
+    public static void main(String[] args) {
+        String input = "1919 * 810\n" + "123.456 - 654.321\n" + "4. * .6\n" + "1 + 1 * 4\n" + "(5 - 1) * 4\n";
+
+        CharStream inputStream = CharStreams.fromString(input);
+        calcLexer lexer = new calcLexer(inputStream);
+        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+        calcParser parser = new calcParser(tokenStream);
+        ParseTree tree = parser.calculator();
+        Visitor visitor = new Visitor();
+        visitor.visit(tree);
+    }
+}
+```
+
+编译运行代码，输出结果如下：
+
+```
+1919*810
+ = 1554390.0
+123.456-654.321
+ = -530.865
+4.*.6
+ = 2.4
+1+1*4
+ = 5.0
+(5-1)*4
+ = 16.0
+```
+
+- [ ] TODO 介绍 visit 方法、getText 等
 
 ## ANTLR 辅助工具
 
