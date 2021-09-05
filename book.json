@@ -21,7 +21,7 @@
                 "shell": "bash"
             },
             "css": [
-                "prismjs/themes/prism-one-light.css"
+                "prism-themes/themes/prism-one-light.css"
             ]
         }
     }
