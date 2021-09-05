@@ -1,16 +1,37 @@
 name: 'Gitbook Action Build'
-on:
-  push:
-    branches:
-      - master  # trigger branch
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout action
-      uses: actions/checkout@v2
-    - name: Gitbook Action           # https://github.com/ZanderZhao/gitbook-action/releases
-      uses: ZanderZhao/gitbook-action@v1.2.4  # -> or ZanderZhao/gitbook-action@master.  If not use master click above, use latest please 
-      with:                                   #    or fork this repo and use YourName/gitbook-action@master
-        token: ${{ secrets.PERSONAL_TOKEN }}  # -> remember add this in settings/secrets as following
 
+on:
+    push:
+        branches:
+            - master # trigger branch
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [8]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: install_gitbook_plugins
+              run: |
+                  npm install gitbook-cli  -g
+                  gitbook -v
+                  gitbook install
+            - name: build_gitbook
+              run: |
+                  gitbook build
+            - name: push_to_pages
+              run: |
+                  cd ./_book
+                  git init
+                  git config --local user.name "${GITHUB_ACTOR}"
+                  git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+                  git add *
+                  git commit -m "Update by gitbook-action"
+                  git push --force  "https://${GITHUB_ACTOR}:${{ secrets.PERSONAL_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" master:gh-pages
