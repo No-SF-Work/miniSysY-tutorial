@@ -1,24 +1,28 @@
 {
     "plugins": [
-         "-lunr", 
-	 "-search", 
-	 "search-pro",
-	 "expandable-chapters",
-	 "code",
-	 "chapter-fold",
-	 "splitter",
-	 "github",
-	 "-highlight", 
-	 "prism", 
-	 "prism-themes"
+        "-lunr",
+        "-search",
+        "search-pro",
+        "expandable-chapters",
+        "code",
+        "chapter-fold",
+        "splitter",
+        "github",
+        "-highlight",
+        "prism",
+        "prism-themes"
     ],
-    "pluginsConfig":{
-	    "github":{
-	    "url":"https://github.com/BUAA-SE-Compiling/Slang-tutorial"
-	    },
-	     "prism": {
-   		"lang":{"shell":"bash"},
-		"css": ["prismjs/themes/prism-solarizedlight.css"]
-  		}
+    "pluginsConfig": {
+        "github": {
+            "url": "https://github.com/BUAA-SE-Compiling/Slang-tutorial"
+        },
+        "prism": {
+            "lang": {
+                "shell": "bash"
+            },
+            "css": [
+                "prismjs/themes/prism-solarizedlight.css"
+            ]
+        }
     }
 }
