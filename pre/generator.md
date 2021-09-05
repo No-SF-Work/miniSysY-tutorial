@@ -477,11 +477,58 @@ Listener 模式中会按顺序恰好遍历每个节点一次，进入或者退�
 
 #### 运行 ANTLR 生成的 Java 代码
 
-- [ ] TODO
+为了运行 ANTLR 生成的代码，你需要在 `CLASSPATH` 中加入 ANTLR 的运行时库，Java 版本的运行时库包含在之前下载的 `antlr-4.9.2-complete.jar` 包中。
+
+编写打印语法树的代码如下：
+
+```java
+// Main.java
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
+public class Main {
+    public static void main(String[] args) {
+        String input = "1919 * 810\n" + "123.456 - 654.321\n" + "4. * .6\n" + "1 + 1 * 4\n" + "(5 - 1) * 4\n";
+
+        CharStream inputStream = CharStreams.fromString(input); // 获取输入流
+        calcLexer lexer = new calcLexer(inputStream);
+        CommonTokenStream tokenStream = new CommonTokenStream(lexer); // 词法分析获取 token 流
+        calcParser parser = new calcParser(tokenStream);
+        ParseTree tree = parser.calculator(); // 获取语法树的根节点
+        System.out.println(tree.toStringTree(parser)); // 打印字符串形式的语法树
+    }
+}
+```
+
+在 `CLASSPATH` 中加入了 ANTLR 的运行时库后，你可以直接使用 `javac` 来编译 `Main.java`。
+
+```bash
+$ echo $CLASSPATH
+.:/usr/local/lib/antlr-4.9.2-complete.jar:
+$ ls
+Main.java    calc.tokens            calcBaseVisitor.java  calcLexer.java    calcListener.java  calcVisitor.java
+calc.interp  calcBaseListener.java  calcLexer.interp      calcLexer.tokens  calcParser.java    calculator.iml
+$ javac Main.java
+```
+
+运行程序，打印出字符串形式的语法树。
+
+```bash
+$ java Main
+(calculator (line (expr (term (term (factor 1919)) * (factor 810))) \n) (line (expr (expr (term (factor 123.456))) - (term (factor 654.321))) \n) (line (expr (term (term (factor 4.)) * (factor .6))) \n) (line (expr (expr (term (factor 1))) + (term (term (factor 1)) * (factor 4))) \n) (line (expr (term (term (factor ( (expr (expr (term (factor 5))) - (term (factor 1))) ))) * (factor 4))) \n))
+```
+
+> 在 IDE 中的运行可以自行查阅相关资料
 
 #### 运行 ANTLR 生成的 C++ 代码
 
 - [ ] TODO
+
+### 基于 ANTLR 生成的代码编写你的代码（以 Java 为例）
+
+
 
 ### ANTLR 辅助工具
 
