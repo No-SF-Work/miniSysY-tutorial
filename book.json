@@ -20,10 +20,8 @@
             "lang": {
                 "shell": "bash"
             },
-        },
-        "prism-themes": {
             "css": [
-                "prism-themes/themes/prism-one-light.css"
+                "prism-themes/themes/prism-vs.css"
             ]
         }
     }
