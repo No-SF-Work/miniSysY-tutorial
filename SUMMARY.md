@@ -4,8 +4,11 @@
 * [报告要求](report.md)
 * [诚信](integrity.md)
 * [pre](pre/pre.md)
-	* [flex/bison/ANTLR](pre/generator.md)
-	* llvm 和llvm ir
+	* [flex/bison/ANTLR](pre/generator/generator.md)
+    	* [flex](pre/generator/flex.md)
+    	* [bison](pre/generator/bison.md)
+    	* [ANTLR](pre/generator/ANTLR.md)
+	* llvm 和 llvm ir
 		* [llvm 工具链下载](pre/llvm_download.md)	
 		* [llvm 工具链介绍](pre/llvm_tool_chain.md)
 		* [llvm IR 快速上手](pre/llvm_ir_quick_primer.md)
