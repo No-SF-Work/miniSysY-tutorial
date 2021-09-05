@@ -5,8 +5,6 @@
 * [诚信](integrity.md)
 * [pre](pre/pre.md)
 	* [flex/bison/ANTLR](pre/generator.md)
-		* [实验指导](yettocome.md)	
-		* [任务简介](yettocome.md)
 	* llvm 和llvm ir
 		* [llvm 工具链下载](pre/llvm_download.md)	
 		* [llvm 工具链介绍](pre/llvm_tool_chain.md)
