@@ -10,7 +10,8 @@
         "github",
         "-highlight",
         "prism",
-        "prism-themes"
+        "prism-themes",
+        "theme-comscore"
     ],
     "pluginsConfig": {
         "github": {
@@ -21,7 +22,7 @@
                 "shell": "bash"
             },
             "css": [
-                "prism-themes/themes/prism-vs.css"
+                "prismjs/themes/prism.css"
             ]
         }
     }
