@@ -72,8 +72,8 @@ number -> [0-9]+ | [0-9]+ '.' [0-9]* | [0-9]* '.' [0-9]+
 /* calc.y */
 %{
 #include <stdio.h>
-    int yylex(void);
-    void yyerror(const char *s);
+int yylex(void);
+void yyerror(const char *s);
 %}
 ```
 
@@ -126,8 +126,8 @@ expr
 | expr ADDOP term
 {
     switch ($2) {
-    case '+': $$ = $1 + $3; break;
-    case '-': $$ = $1 - $3; break;
+        case '+': $$ = $1 + $3; break;
+        case '-': $$ = $1 - $3; break;
     }
 }
 
@@ -166,8 +166,7 @@ factor
 
 ```c
 /* calc.y */
-void yyerror(const char *s)
-{
+void yyerror(const char *s) {
     fprintf(stderr, "%s\n", s);
 }
 ```
