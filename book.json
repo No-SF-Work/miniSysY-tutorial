@@ -11,7 +11,7 @@
         "-highlight",
         "prism",
         "prism-themes",
-        "theme-comscore",
+        "theme-comscore"
     ],
     "pluginsConfig": {
         "github": {
