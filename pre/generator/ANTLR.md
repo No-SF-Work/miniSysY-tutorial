@@ -1,16 +1,16 @@
 # ANTLR
 
-ANTLR（ANother Tool for Language Recognition）是一款强大的语法分析器生成工具，基于 LL(\*) 分析技术。ANTLR 通过解析用户自定义的上下文无关文法，自动生成词法分析器、语法分析器。
+ANTLR（ANother Tool for Language Recognition）是一款强大的语法分析器生成工具，基于 LL(\*) 分析技术。ANTLR 可以通过解析用户自定义的上下文无关文法，自动生成词法分析器、语法分析器。
 
 ANTLR 支持多种代码生成目标，包括 Java、C++、C#、Python、Go、JavaScript、Swift 等。
 
 ## 安装 ANTLR
 
-ANTLR 是用 Java 编写的，安装 ANTLR 只需要从 [ANTLR 官网](https://www.antlr.org/) 下载最新的 jar 包，并放在合适的位置。该 jar 包中包含 ANTLR 工具本身和运行 ANTLR 生成的 java 代码所需的运行时库。如果你需要运行 ANTLR 生成的其他语言的代码，需要从官网额外下载对应语言的运行时库。
+ANTLR 是用 Java 编写的，安装 ANTLR 只需要从 [ANTLR 官网](https://www.antlr.org/) 下载最新的 jar 包，并放在合适的位置。该 jar 包中包含 ANTLR 工具本体和运行 ANTLR 生成的 java 代码所需的运行时库。如果你需要运行 ANTLR 生成的其他语言的代码，需要从官网额外下载对应语言的运行时库。
 
 ### Ubuntu
 
-从官网下载最新的 jar 包，放在你认为合适的位置。如：
+从官网下载最新的 jar 包，放在合适的位置。如：
 
 ```shell
 $ mkdir antlr && cd antlr
@@ -33,18 +33,18 @@ $ java -jar antlr-4.9.2-complete.jar
 
 ## ANTLR 的语法文件：`.g4`
 
-ANTLR 源文件的扩展名为 `.g4`，ANTLR 读入 `.g4` 文件，生成对应的词法分析程序和语法分析程序。
+ANTLR 源文件的扩展名为 `.g4`，ANTLR 会读入 `.g4` 文件，并生成对应的词法分析程序和语法分析程序。
 
-在 `.g4` 文件的开头，你需要给文件中定义的语法起个名字，名字必须和文件名相同。
+在 `.g4` 文件的开头，你需要给文件中定义的语法起个名字，这个名字必须和文件名相同。
 
 ```c
 // calc.g4
 grammar calc;
 ```
 
-ANTLR 中的注释和 C 语言相同。
+ANTLR 中的注释和 C 语言相同，都是用 `//` 与 `/**/`。
 
-首先定义词法解析规则，ANTLR 约定词法解析规则以大写字母开头。和 bison 类似，ANTLR 使用 `:` 代表一个 BNF 文法中的 `->` 或 `::=`；同一终结符/非终结符的不同规则使用 `|` 分隔；使用 `;` 表示一条终结符/非终结符的规则的结束。
+首先定义词法解析规则，ANTLR 约定词法解析规则以大写字母开头。和 bison 类似。ANTLR 使用 `:` 代表 BNF 文法中的 `->` 或 `::=`；同一终结符/非终结符的不同规则使用 `|` 分隔；使用 `;` 表示一条终结符/非终结符的规则的结束。
 
 ```c
 // calc.g4
@@ -59,7 +59,7 @@ RET: '\r\n' | '\n' | '\r';
 WHITE_SPACE: [ \t] -> skip; // -> skip 表示解析时跳过该规则
 ```
 
-然后定义语法解析规则，ANTLR 约定语法解析规则以小写字母开头。ANTLR 默认第一个语法规则左部的非终结符作为语法的起始符号。
+然后定义语法解析规则。ANTLR 约定语法解析规则以小写字母开头，默认使用第一个语法规则左部的非终结符作为语法的起始符号。
 
 ```c
 // calc.g4
@@ -70,7 +70,7 @@ term: factor | term MUL factor | term DIV factor;
 factor: LPAREN expr RPAREN | NUMBER;
 ```
 
-前面提到，ANTLR 基于 LL(\*) 分析技术，这是一种自顶向下的分析方法。在课程中我们会学到，自顶向下的分析方法不能处理具有左递归的文法。但在 ANTLR 的实现中进行了一些改良，如果直接左递归规则中存在一个非左递归的选项，它是可以处理的，如 `expr: expr ADD term | expr SUB term | term;` 中有一个选项 `term`，但是 ANTLR 仍然不能处理没有非左递归选项的左递归规则以及间接左递归。
+前面提到，ANTLR 基于 LL(\*) 分析技术，这是一种自顶向下的分析方法。在课程中我们会学到，自顶向下的分析方法不能处理具有左递归的文法。但在 ANTLR 的实现中进行了一些改进，如果直接左递归规则中存在一个非左递归的选项，它是可以处理的，如 `expr: expr ADD term | expr SUB term | term;` 中有一个选项 `term`，但是 ANTLR 仍然不能处理没有非左递归选项的左递归规则以及间接左递归。
 
 > ANTLR 隐式地允许指定运算符优先级，规则中排在前面的选项优先级比后面的选项优先级更高，所以你甚至可以把文法改写成这样：
 >
@@ -94,8 +94,8 @@ $ java -jar antlr-4.9.2-complete.jar calc.g4
 如果你需要生成其他语言的代码，可以在运行 ANTLR 时通过 `-Dlanguage=` 来指定，如：
 
 ```shell
-$ java -jar antlr-4.9.2-complete.jar -Dlanguage=Cpp calc.g4
 # 生成 C++ 代码
+$ java -jar antlr-4.9.2-complete.jar -Dlanguage=Cpp calc.g4
 ```
 
 ANTLR 在完成语法分析后，会生成一棵程序对应的语法树。例如对于如下字符串：
@@ -118,17 +118,17 @@ ANTLR 提供了 Listener 和 Visitor 两种模式来完成语法树的遍历，�
 
 上面的例子中，ANTLR 生成的文件包括 `calc.interp`、`calc.tokens`、`calcBaseListener.java`、`calcLexer.interp`、`calcLexer.java`、`calcLexer.tokens`、`calcListener.java`、`calcParser.java`（如果开启了 Visitor 模式，还包括 `calcBaseVisitor.java` 和 `calcVisitor.java`）。`calcLexer.java` 是词法分析程序，`calcParser.java` 是语法分析程序。`*.tokens` 文件中包括一系列 token 的名称和对应的值，用于词法分析和语法分析。`*.interp` 包含一些 ANTLR 内置的解释器需要的数据，用于 IDE 调试语法。
 
-我们重点关注 `calcListener.java` 和 `calcVisitor.java`，它们是 Listener 模式和 Visitor 模式的接口，`calcBaseListener.java` 和 `calcBaseVisitor.java` 是对应接口的默认实现。
+我们重点关注 `calcListener.java` 和 `calcVisitor.java`，它们是 Listener 模式和 Visitor 模式的接口，`calcBaseListener.java` 和 `calcBaseVisitor.java` 分别是对应接口的默认实现。
 
-在使用 ANTLR 生成的代码时，你需要定义一个类继承 BaseListener 或 BaseVisitor，在其中重写遍历到每个节点时所调用的方法，完成从语法树翻译到 IR 的翻译工作。
+在使用 ANTLR 生成的代码时，你需要定义一个类继承 `BaseListener` 或 `BaseVisitor`，在其中重写遍历到每个节点时所调用的方法，完成从语法树翻译到 IR 的翻译工作。
 
 Listener 模式中为每个语法树节点定义了一个 enterXXX 方法和一个 exitXXX 方法，如 `void enterExpr(calcParser.ExprContext ctx)` 和 `void exitExpr(calcParser.ExprContext ctx)`。遍历语法树时，程序会自动遍历所有节点，遍历到一个节点时调用 enter 方法，离开一个节点时调用 exit 方法，你需要在 enter 和 exit 方法中实现翻译工作。
 
-Vistor 模式中为每个语法树节点定义了返回值类型为一个泛型的 visitXXX 方法，如 `T visitExpr(calcParser.ExprContext ctx)`。遍历语法树时，你需要调用一个 `Visitor` 对象的 `visit` 方法遍历语法树的根节点，`visit` 方法会根据传入的节点类型调用对应的 visitXXX 方法。你需要在 visitXXX 方法中实现翻译工作，在翻译工作中，调用 `visit` 方法来手动遍历语法树中的其他节点。
+Vistor 模式中为每个语法树节点定义了返回值类型为泛型的 visitXXX 方法，如 `T visitExpr(calcParser.ExprContext ctx)`。遍历语法树时，你需要调用一个 `Visitor` 对象的 `visit` 方法遍历语法树的根节点，`visit` 方法会根据传入的节点类型调用对应的 visitXXX 方法，你需要在 visitXXX 方法中实现翻译工作。在翻译工作中，你可以继续调用 `visit` 方法来手动遍历语法树中的其他节点。
 
 我们可以发现：Listener 模式中方法没有返回值，而 Vistor 模式中方法的返回值是一个泛型，类型是统一的，并且两种模式中的方法都不支持传参。在我们需要手动操纵返回值和参数时，可以定义一些属性用于传递变量。
 
-Listener 模式中会按顺序恰好遍历每个节点一次，进入或者退出一个节点的时候调用你实现的对应方法。Vistor 模式中对树的遍历是可控的，你可以遍历时跳过某些节点或重复遍历一些节点，在翻译时推荐使用 Visitor 模式。
+Listener 模式中会按顺序恰好遍历每个节点一次，进入或者退出一个节点的时候调用你实现的对应方法。而 Vistor 模式中对树的遍历是可控的，你可以遍历时跳过某些节点或重复遍历一些节点，因此在翻译时推荐使用 Visitor 模式。
 
 ## 运行 ANTLR 生成的代码
 
@@ -250,15 +250,19 @@ public class Visitor extends calcBaseVisitor<Void> {
                 // 有 3 个子节点，表示匹配的规则是 expr -> expr ADD term | expr SUB term
                 // visit expr 和 term 对应的子节点，获取节点对应的值，根据运算符是 ADD 或 SUB 进行不同运算
                 double lhs = 0.0, rhs = 0.0, result = 0.0;
+
                 visit(ctx.expr());
                 lhs = nodeValue;
+
                 visit(ctx.term());
                 rhs = nodeValue;
+
                 if (ctx.ADD() != null) {
                     result = lhs + rhs;
                 } else {
                     result = lhs - rhs;
                 }
+
                 nodeValue = result;
             }
         }
@@ -276,15 +280,19 @@ public class Visitor extends calcBaseVisitor<Void> {
                 // 有 3 个子节点，表示匹配的规则是 term -> term MUL factor | term DIV factor
                 // visit term 和 factor 对应的子节点，获取节点对应的值，根据运算符是 MUL 或 DIV 进行不同运算
                 double lhs = 0.0, rhs = 0.0, result = 0.0;
+
                 visit(ctx.term());
                 lhs = nodeValue;
+
                 visit(ctx.factor());
                 rhs = nodeValue;
+
                 if (ctx.MUL() != null) {
                     result = lhs * rhs;
                 } else {
                     result = lhs / rhs;
                 }
+
                 nodeValue = result;
             }
         }
