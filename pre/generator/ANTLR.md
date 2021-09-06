@@ -348,7 +348,7 @@ public class Main {
  = 16.0
 ```
 
-- [ ] TODO 介绍 visit 方法、getText 等
+- [ ] TODO 介绍 visit 方法、getText、ctx 等
 
 ## ANTLR 辅助工具
 
