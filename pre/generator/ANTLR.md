@@ -112,6 +112,8 @@ ANTLR 在完成语法分析后，会生成一棵程序对应的语法树。例�
 
 ## 遍历语法树
 
+### Listener 模式和 Visitor 模式
+
 ANTLR 提供了 Listener 和 Visitor 两种模式来完成语法树的遍历，默认生成的是 Listener 模式的代码，如果要生成 Vistor 模式的代码，需要运行选项中加上 `-visitor`，如果要关闭生成 Listener 模式的代码，需要运行选项中加上 `-no-listener`。
 
 下面以生成 Java 代码为例进行介绍。
