@@ -153,10 +153,13 @@ define i32 @main() {
 
 ### 总体结构
 
-1. LLVM IR 文件的基本单位称为 `module`（本实验中涉及到的部分均为单 `module`，因为本实验只涉及到单文件编译)
+1. LLVM IR 文件的基本单位称为 `module`（本实验中涉及到的部分均为单 `module`，因为本实验只涉及到单文件编译）
 2. 一个 `module` 中可以拥有多个顶层实体，比如 `function` 和 `global variavle`
 3. 一个 `function define` 中至少有一个 `basicblock`
 4. 每个 `basicblock` 中有若干 `instruction`，并且都以 `terminator instruction` 结尾
+
+### 函数定义与函数声明 (Define&Delcare)
+
 
 ### 基本块（Basic Block）
 
@@ -181,15 +184,74 @@ define i32 @main() {
 终结指令**一定**位于某个基本块的末尾（否则中间就改变了基本块内的控制流）；反过来，每个基本块的末尾也**一定**是一条终结指令（否则仍然是顺序执行的，基本块不应该结束）。终结指令决定了程序控制流的执行方向。例如，`ret` 指令会使程序的控制流返回到当前函数的调用者（可以理解为 `return`），`br` 指令表示根据标识符选择一个控制流的方向（可以理解为 `if`）。
 
 下面，我们通过两个例子来介绍程序的控制流是如何通过基本块与终结指令描述的：
-
-//未完待续
 ```c
 //if.c
-int main(){
-
+int main() {
+    int a = getint();
+    int b = getint();
+    int c = 0;
+    if (a == 0) {
+        c = 5;
+    } else {
+        c = 10;
+    }
+    putint(c);
+    return 0;
 }
 ```
 
 ```c
 //while.c
+int getint();
+
+int putint(int a);
+
+int main() {
+    int a = getint();
+    int c = 1;
+    while (a != 0) {
+        c = c * (c + 1);
+        a = a - 1;
+    }
+    putint(c);
+    return 0;
+}
+```
+
+将 `if.c` 导出为 LLVM IR 并且删去实验无关部分后的代码如下所示
+``` llvm
+define dso_local i32 @main() #0 {
+  %1 = alloca i32
+  %2 = alloca i32
+  %3 = alloca i32
+  %4 = alloca i32
+  store i32 0, i32* %1
+  %5 = call i32 (...) @getint()
+  store i32 %5, i32* %2
+  %6 = call i32 (...) @getint()
+  store i32 %6, i32* %3
+  %7 = load i32, i32* %2
+  %8 = load i32, i32* %3
+  %9 = icmp eq i32 %7, %8
+  br i1 %9, label %10, label %11
+
+10:                                             
+  store i32 15, i32* %4
+  br label %12
+
+11:                                               
+  store i32 30, i32* %4
+  br label %12
+
+12:                                               
+  %13 = load i32, i32* %4
+  %14 = call i32 @putint(i32 %13)
+  ret i32 0
+}
+```
+//todo exp
+
+将 `while.c` 导出为 LLVM IR  并且删去实验无关部分后的代码如下所示
+```llvm
+
 ```
