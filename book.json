@@ -22,7 +22,7 @@
                 "shell": "bash"
             },
             "css": [
-                "prism-themes/themes/prism-nord.css"
+                "prism-themes/themes/prism-synthwave84.css"
             ]
         }
     }
