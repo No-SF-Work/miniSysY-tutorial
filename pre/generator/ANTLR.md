@@ -358,8 +358,11 @@ public class Main {
  = 16.0
 ```
 
-- [ ] TODO 介绍 visit 方法、getText、ctx 等
+在 ANTLR 生成的代码中，每个 `Context` 都是语法树上的一个节点类。
 
-## ANTLR 辅助工具
+每个节点的子节点对象可以通过调用节点的对应名称方法来获得，如一个 `ExprContext` 对象调用 `expr()` 方法，根据规则 `expr: expr ADD term | expr SUB term | term;`，当该 `ExprContext` 对象对应的规则是 `expr: expr ADD term | expr SUB term;` 时，`expr()` 返回对应的子节点；当该 `ExprContext` 对象对应的规则是 `expr: term;` 时，`expr()` 返回 `null`。
 
-- [ ] TODO: 介绍 ANTLR preview
+每个 `Context` 都有一个 `accept` 方法接受 visitor，访问该节点。 `calcBaseVisitor` 继承的 `AbstractParseTreeVisitor` 类中，将 `accept` 方法封装成了一个 `visit` 方法，接受一个节点作为参数，访问该节点；`AbstractParseTreeVisitor` 中还实现了一个 `visitChildren` 方法，遍历一个节点的所有子节点。
+
+
+> 你可以在 [ANTLR 官网](https://www.antlr.org) 了解关于 ANTLR 的更多知识
