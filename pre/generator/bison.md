@@ -83,15 +83,15 @@ void yyerror(const char *s);
 
 ```c
 /* calc.y */
-%token RET
-%token <num> NUMBER
-%token <op> ADDOP MULOP LPAREN RPAREN
-%type <num> line expr term factor
-
 %union {
     char   op;
     double num;
 }
+
+%token RET
+%token <num> NUMBER
+%token <op> ADDOP MULOP LPAREN RPAREN
+%type <num> line expr term factor
 ```
 
 这里包括了对 token 的定义、对部分 token 类型的定义、对非终结符类型的定义以及 对 `yylval` 类型的定义。
@@ -217,8 +217,4 @@ syntax error
 
 ### 生成 C++ 代码
 
-- [ ] TODO
-
-### 生成 Java 代码
-
-- [ ] TODO
+> 详见 [官方文档](https://www.gnu.org/software/bison/manual/)

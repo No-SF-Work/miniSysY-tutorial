@@ -183,7 +183,62 @@ $ java Main
 
 ### 运行 ANTLR 生成的 C++ 代码
 
-- [ ] TODO
+在[官网](https://www.antlr.org/download.html)下载 ANTLR C++ Runtime 源文件，将 `runtime/src/` 下的代码复制到你认为合适的位置。
+
+编写打印语法树的代码如下：
+
+```cpp
+// main.cpp
+#include "calcLexer.h"
+#include "calcParser.h"
+#include <iostream>
+
+using namespace std;
+using namespace antlr4;
+
+int main(int argc, char *argv[]) {
+    string input("1919 * 810\n123.456 - 654.321\n4. * .6\n1 + 1 * 4\n(5 - 1) * 4\n");
+    
+    ANTLRInputStream inputStream(input);
+    calcLexer lexer(&inputStream);
+    CommonTokenStream tokenStream(&lexer);
+    calcParser parser(&tokenStream);
+    tree::ParseTree *tree = parser.calculator();
+    cout << tree->toStringTree(&parser) << endl;
+    
+    return 0;
+}
+```
+
+编写 `CMakeLists.txt` 如下：
+
+```cmake
+# CMakeLists.txt
+project(antlr-calculator CXX)
+cmake_minimum_required(VERSION 3.1)
+file(GLOB_RECURSE DIR_SRC "src/*.cpp")
+file(GLOB_RECURSE DIR_LIB_SRC "third_party/*.cpp")
+include_directories(src/)
+include_directories(third_party/antlr-runtime)
+add_executable(main ${DIR_SRC} ${DIR_LIB_SRC})
+```
+
+使用 cmake 来构建项目：
+
+```shell
+$ mkdir build && cd build
+$ cmake ..
+$ make
+```
+
+运行程序，打印出字符串形式的语法树。
+
+```shell
+$ ./main
+(calculator (line (expr (term (term (factor 1919)) * (factor 810))) \n) (line (expr (expr (term (factor 123.456))) - (term (factor 654.321))) \n) (line (expr (term (term (factor 4.)) * (factor .6))) \n) (line (expr (expr (term (factor 1))) + (term (term (factor 1)) * (factor 4))) \n) (line (expr (term (term (factor ( (expr (expr (term (factor 5))) - (term (factor 1))) ))) * (factor 4))) \n))
+```
+
+> 可参考 https://github.com/kobayashi-compiler/kobayashi-compiler
 
 ## 基于 ANTLR 生成的代码编写你的代码（以 Java 为例）
 

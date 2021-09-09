@@ -98,8 +98,47 @@ I found 2 words of 9 chars.
 
 ### 生成 C++ 代码
 
-- [ ] TODO
+编写 flex 源文件如下：
 
-### 生成 Java 代码
+```cpp
+/* word_char_counter_cpp.l */
+%option c++
+%option noyywrap
 
-- [ ] TODO
+%{
+#include <cstring>
+int chars = 0;
+int words = 0;
+%}
+
+%%
+[a-zA-Z]+ { chars += strlen(yytext); words++; }
+
+. { }
+%%
+
+int main(int argc, char **argv) {
+    FlexLexer* lexer = new yyFlexLexer();
+    lexer->yylex();
+    std::cout << "I found " << words << " words of " << chars << " chars." << std::endl;
+    return 0;
+}
+```
+
+使用 flex 生成 C++ 代码有两种方式，一种是在源文件中加入 `%option c++`，另一种是在生成时增加选项 `-+`，如 `flex word_char_counter_cpp.l -+`。
+
+写完词法规则后，可以使用 flex 生成对应的 C++ 代码文件：
+
+```shell
+$ flex word_char_counter_cpp.l
+$ g++ lex.yy.cc -o word_char_counter_cpp
+```
+
+运行编译后的程序，表现和生成 C 代码时编译出的程序结果一致。
+
+```shell
+$ ./word_car_counter_cpp
+Hello, flex.
+^D
+I found 2 words of 9 chars.
+```
