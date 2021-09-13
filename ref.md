@@ -1,10 +1,12 @@
 # 参考文献
 
-本实验的灵感来源 https://decaf-lang.github.io/minidecaf-tutorial/
+本实验灵感来源 https://decaf-lang.github.io/minidecaf-tutorial/
 
 SYSY 语言原始定义 https://gitlab.eduxiji.net/nscscc/compiler2021/-/blob/master/SysY%E8%AF%AD%E8%A8%80%E5%AE%9A%E4%B9%89.pdf
 
 LLVM IR lang ref https://llvm.org/docs/LangRef.html
+
+LLVM Programmer Manual https://llvm.org/docs/ProgrammersManual.html#the-core-llvm-class-hierarchy-reference
 
 Often misunderstood GEP Instruction https://llvm.org/docs/GetElementPtr.html
 
