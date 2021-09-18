@@ -14,14 +14,14 @@ Token 对照表如下：
 | ---------- | ------------------------------- | ----------------- | ------------------------------------- |
 | 标识符     | （定义见下）                    | `Ident($name)`    | 将 `$name` 替换成标识符对应的字符串   |
 | 无符号整数 | （定义见下）                    | `Number($number)` | 将 `$number` 替换成标识符对应的字符串 |
-| 赋值符号   | `=`                             | `Assign`          |                                       |
-| 分号       | `;`                             | `Semicolon`       |                                       |
 | if         | `if`                            | `If`              |                                       |
 | else       | `else`                          | `Else`            |                                       |
 | while      | `while`                         | `While`           |                                       |
 | break      | `break`                         | `Break`           |                                       |
 | continue   | `continue`                      | `Continue`        |                                       |
 | return     | `return`                        | `Return`          |                                       |
+| 赋值符号   | `=`                             | `Assign`          |                                       |
+| 分号       | `;`                             | `Semicolon`       |                                       |
 | 左括号     | `(`                             | `LPar`            |                                       |
 | 右括号     | `)`                             | `RPar`            |                                       |
 | 左大括号   | `{`                             | `LBrace`          |                                       |
