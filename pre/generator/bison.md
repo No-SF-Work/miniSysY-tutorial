@@ -20,7 +20,7 @@ $ sudo apt install bison
 
 - [ ] TODO
 
-### Windows
+### Windows & other Linux
 
 自行探索
 

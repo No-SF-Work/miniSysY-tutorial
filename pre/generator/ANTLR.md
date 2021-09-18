@@ -27,7 +27,7 @@ $ java -jar antlr-4.9.2-complete.jar
 
 - [ ] TODO
 
-### Windows
+### Windows & other Linux
 
 自行探索
 

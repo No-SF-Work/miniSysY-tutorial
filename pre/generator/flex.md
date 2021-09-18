@@ -18,7 +18,7 @@ $ sudo apt install flex
 
 - [ ] TODO
 
-### Windows
+### Windows & other Linux
 
 自行探索
 
