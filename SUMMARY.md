@@ -12,6 +12,7 @@
 		* [llvm 工具链下载](pre/llvm_download.md)	
 		* [llvm 工具链介绍](pre/llvm_tool_chain.md)
 		* [llvm IR 快速上手](pre/llvm_ir_quick_primer.md)
+		* [推荐指令](pre/suggested_insts.md)
     * [（阅读）评测机食用指北](pre/judge.md)
     * [（实验）词法分析小实验](pre/lab_lexer.md)
     * [（实验）语法分析小实验](pre/lab_parser.md)

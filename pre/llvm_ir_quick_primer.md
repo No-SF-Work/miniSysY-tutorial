@@ -4,7 +4,7 @@
 
 **如果你对 LLVM IR 比较熟悉，可以跳过本节**
 
-本节的内容较多较难，可能需要多看几遍才能消化。由于本节篇幅较长且助教精力有限，部分地方可能讲得不全面或存在错误，实际以 [LLVM Lang Ref](https://llvm.org/docs/LangRef.html) 为准。
+本节的内容较多较难，可能需要多看几遍才能消化。由于本节篇幅较长且助教精力有限，部分地方可能讲得不全面或存在错误，实际以 [LLVM Lang Ref](https://llvm.org/docs/LangRef.html) 以及 [LLVM Programmer Manual](https://llvm.org/docs/ProgrammersManual.html#the-core-llvm-class-hierarchy-reference) 为准。
 
 ## LLVM IR 简介
 
@@ -14,7 +14,7 @@
 
 - 其次，假设我们有 `m` 种源语言和 `n` 种目标平台，如果我们直接将源代码翻译为目标平台的代码，那么我们就需要编写 `m * n` 个不同的编译器。然而，如果我们采用一种 IR 作为中转，先将源语言编译到这种 IR ，再将这种 IR 翻译到不同的目标平台上，那么我们就只需要实现 `m + n` 个编译器。
 
-因此，常见的编译器都分为了三个部分，前端（front-end），中端（middle-end）以及后端（back-end），每一部分都承担了不同的功能：
+因此，目前常见的编译器都分为了三个部分，前端（front-end），中端（middle-end）以及后端（back-end），每一部分都承担了不同的功能：
 
 - 前端：将源语言编译到 IR
 - 中端：对 IR 进行优化
@@ -150,6 +150,7 @@ define i32 @main() {
 - 大多数指令与字面含义相同（`alloca` 分配内存并返回地址，`load` 从内存读出值，`store` 向内存存值，`add` 用于加法等）
 
 ## LLVM IR 的结构
+如果看完下面的内容以后依然对 LLVM IR 的结构不甚了了，[LLVM Programmer Manual](https://llvm.org/docs/ProgrammersManual.html#the-core-llvm-class-hierarchy-reference) 里的内容可能能起到帮助。
 
 ### 总体结构
 
@@ -159,7 +160,7 @@ define i32 @main() {
 4. 每个 `basicblock` 中有若干 `instruction`，并且都以 `terminator instruction` 结尾
 
 ### 函数定义与函数声明 (Define&Delcare)
-
+LLVM 中
 
 ### 基本块（Basic Block）
 
@@ -183,7 +184,7 @@ define i32 @main() {
 
 终结指令**一定**位于某个基本块的末尾（否则中间就改变了基本块内的控制流）；反过来，每个基本块的末尾也**一定**是一条终结指令（否则仍然是顺序执行的，基本块不应该结束）。终结指令决定了程序控制流的执行方向。例如，`ret` 指令会使程序的控制流返回到当前函数的调用者（可以理解为 `return`），`br` 指令表示根据标识符选择一个控制流的方向（可以理解为 `if`）。
 
-下面，我们通过两个例子来介绍程序的控制流是如何通过基本块与终结指令描述的：
+下面，我们通过一个例子来介绍程序的控制流是如何通过基本块与终结指令描述的：
 ```c
 //if.c
 int main() {
