@@ -2,7 +2,7 @@
 
 本节介绍了一些我们认为有用的 LLVM IR 的指令以及其简化的用法（比如`load`指令的完整用法为``<result> = load [volatile] <ty>, <ty>* <pointer>[, align <alignment>][, !nontemporal !][, !invariant.load !<empty_node>][, !invariant.group !][, !nonnull !<empty_node>][, !dereferenceable !][, !dereferenceable_or_null !<deref_bytes_node>][, !align !][, !noundef !<empty_node>]``）
 
-这些指令**不是必须的**，你可以自己在 [LLVM Lang Ref](https://llvm.org/docs/LangRef.html) 里选择指令并且生成代码
+这些指令**不一定是必须的**，你可以自己在 [LLVM Lang Ref](https://llvm.org/docs/LangRef.html) 里选择指令并且生成代码
 
 只要通过了测试点，我们就认为你所编写的编译器是正确的
 
