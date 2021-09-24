@@ -4,7 +4,7 @@
 
 格式要求： PDF 
 
-提交地址为：todo
+[提交地址点击此处](https://bhpan.buaa.edu.cn:443/link/413EA0802B7A7627A6B5112531C40772)
 
 提交文件名：学号_姓名\_labx （x为本次 lab 编号）
 

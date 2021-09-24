@@ -160,7 +160,37 @@ define i32 @main() {
 4. 每个 `basicblock` 中有若干 `instruction`，并且都以 `terminator instruction` 结尾
 
 ### 函数定义与函数声明 (Define&Delcare)
-LLVM 中
+大家都学习过汇编语言，都知道在汇编层面，一个函数与一个控制语句是相似的，只不过汇编函数在跳转时有一些附加的操作。而在 LLVM 中，函数拥有更高一层的抽象。
+
+#### 函数定义
+
+在上面生成的示例代码里，我们已经看到了函数定义的样子，一个最基本的`main`函数的定义长这样：
+```llvm
+define i32 @main() {
+    ret i32 0 ; 返回 i32 类型的值 0
+}
+```
+函数后面也可以加上参数列表，像这样：
+```llvm
+define i32 @foo(i32 %a,i32 %b) {
+    ret i32 0 ; 返回 i32 类型的值 0
+}
+```
+一个函数定义的最简单的语法形如
+`define + 返回值 (i32) + 函数名 (@foo) + 参数列表 ((i32 %a,i32 %b)) +函数体 ({ret i32 0})`
+
+（题外话：我们还可以在参数列表后面加上属性用来指导优化和代码生成，上面未做简化生成的`main.ll`中能够看到 `main` 函数的函数定义是 `define dso_local i32 @main() #0...`，这里的 `#0` 与`main.ll`中靠后的`attributes #0 = ...`是对应的，他们被用来给函数加上特定的标记，例如是否是能够被内联。这些内容和实验无关，你并不需要了掌握，感兴趣的话可以在 [这里](https://llvm.org/docs/LangRef.html#function-attributes) 进行拓展阅读。)
+
+#### 函数声明
+除了函数定义以外，函数声明也是非常常见的，我们在一个`module`里，如果想要调用别的模块的函数，就需要在本模块先声明这个函数。在本实验中，要使用库函数，你可能需要用函数声明的形式在你生成的`.ll`文件里声明库函数的名字（我们将在下面做出示例）函数声明的结构也比较简单，就是使用`declare`关键词替换`define`，并且没有函数体。比如，下面是一些你在后续实验中将会用到的库函数的函数声明：
+```llvm
+declare i32 @getint()
+declare i32 @getarray(i32*)
+declare i32 @getch()
+declare void @putint(i32)
+declare void @putch(i32)
+declare void @putarray(i32,i32*)
+```
 
 ### 基本块（Basic Block）
 
@@ -191,7 +221,7 @@ int main() {
     int a = getint();
     int b = getint();
     int c = 0;
-    if (a == 0) {
+    if (a == b) {
         c = 5;
     } else {
         c = 10;
@@ -201,58 +231,89 @@ int main() {
 }
 ```
 
-```c
-//while.c
-int getint();
-
-int putint(int a);
-
-int main() {
-    int a = getint();
-    int c = 1;
-    while (a != 0) {
-        c = c * (c + 1);
-        a = a - 1;
-    }
-    putint(c);
-    return 0;
-}
-```
-
-将 `if.c` 导出为 LLVM IR 并且删去实验无关部分后的代码如下所示
+将 `if.c` 导出为 LLVM IR 并且删去实验无关部分，**手动加上函数声明**（我们会在后续实验中指导）后的代码如下所示
 ``` llvm
-define dso_local i32 @main() #0 {
+declare i32 @getint()
+declare void @putint(i32)
+define  i32 @main() {
   %1 = alloca i32
   %2 = alloca i32
   %3 = alloca i32
   %4 = alloca i32
   store i32 0, i32* %1
-  %5 = call i32 (...) @getint()
+  %5 = call i32 () @getint()
   store i32 %5, i32* %2
-  %6 = call i32 (...) @getint()
+  %6 = call i32 () @getint()
   store i32 %6, i32* %3
+  store i32 0, i32* %4
   %7 = load i32, i32* %2
   %8 = load i32, i32* %3
   %9 = icmp eq i32 %7, %8
   br i1 %9, label %10, label %11
 
-10:                                             
-  store i32 15, i32* %4
+10:                                               ; preds = %0
+  store i32 5, i32* %4
   br label %12
 
-11:                                               
-  store i32 30, i32* %4
+11:                                               ; preds = %0
+  store i32 10, i32* %4
   br label %12
 
-12:                                               
+12:                                               ; preds = %11, %10
   %13 = load i32, i32* %4
-  %14 = call i32 @putint(i32 %13)
+  call void @putint(i32 %13)
   ret i32 0
 }
-```
-//todo exp
 
-将 `while.c` 导出为 LLVM IR  并且删去实验无关部分后的代码如下所示
+```
+这个程序的控制流如图所示
+
+![](./../pic/llvm_primer_if.png)
+
+可以看到，`br`指令一共在代码中出现了三次
+``` llvm
+br i1 %9, label %10, label %11 ; A
+br label %12 ; B
+br label %12 ; C
+```
+在这里，我们先介绍一下`br`指令的用法，
+`br`指令的语法为`br + 标志位 + truelabel + falselabel`，或者`br + label`
+
+形如上面代码中 `A` 用法的转移指令叫做条件转移，如果标志位为`1`，程序会跳往`truelabel`标记的`basicblock`。如果标志位为`0`, 程序会跳往`falseblock`标记的`basicblock`。比如，在代码`br i1 %9, label %10, label %11 `中，如果`%9`的值为`1`，就会跳转往基本块`%10`，如果为`0`，就会跳转往基本块`%11`。
+
+形如上面代码中`B,C`的用法的转移指令叫做无条件转移，他会在程序运行到此处时无条件跳转到目标基本块。在上面代码中`B,C`两处的代码都会无条件跳转到基本块`%12`。
+
+如上图所示，`%9`是`icmp eq`指令（用来判断两个值是否相等，我们会在*推荐使用的指令*一节详细介绍）的结果，如果`%7`等于`%8`，那么`%9`的值就会为`1`，否则为`0`。这条指令对应了源代码中的`if(a == b)`,`c=5`对应了基本块`%10`，`c=10`对应了基本块`%11`，这两个基本块运行结束时都需要跳转到目标基本块`%12`执行后面的语句`putint(c)`以及`return 0`。
+
+### 类型系统
+本节由[LLVM Lang Ref:type-system](https://llvm.org/docs/LangRef.html#type-system)节选翻译而来  
+
+接下来我们介绍 LLVM IR 的类型系统。  
+类型系统是 LLVM IR 中最重要的环节之一，强大的类型系统在很大程度上降低了读取和分析 LLVM IR 的难度，并且使一些在一般的的三地址码 IR 中难以实现的优化变得可能。LLVM IR 的类型多种多样，我们在此只介绍可能和实验关系紧密的几种。
+
+#### Void Type
+仅占位用，不代表任何值也不占任何空间。  
+比如
 ```llvm
-
+define void @foo(){
+  ret void
+}
 ```
+#### Integer Type
+简单的类型，代表了后面数字决定的位宽的类型，比如`i1`代表的就是`1bit`长的integer,`i32`就是`32bit`长的integer,在实验涉及内容里，我们只需要`i1`和`i32`类型。  
+比如
+```llvm
+ret i32 0  
+br i1 %2,label  %3,label  %4 
+```
+#### Label Type
+标签类型，标记了代码标签，比如
+```llvm
+br i1 %9, label %10, label %11
+br label %12
+```
+#### 其他 Type
+在后续的实验中，我们还会介绍 `Array Type`（数组部分）以及`Pointer Type`（变量部分），为了不增加大家第一次实验的学习压力，在此就不再详述。
+
+### 说在最后
+LLVM IR是一个非常庞大的系统，这节文章仅仅能够介绍到其最重要的抽象以及和我们实验联系最紧密的抽象，你不能指望光看这一节的内容就对其完全了解，当你在后续实验中有疑问的时候，你可以选择查看 Lang Ref,也可以亲自编译两份代码看看Clang是怎么做的，如果实在无法理解，你还可以向助教询问（不过我们两位助教需要面对接近300位同学，还需要改作业，出实验，编写示例代码，时间实在不很充裕，如果不是实在没办法，还请尽量不要增加助教的工作量，在此先谢过大家）
