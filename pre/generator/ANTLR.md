@@ -8,8 +8,6 @@ ANTLR 支持多种代码生成目标，包括 Java、C++、C#、Python、Go、Ja
 
 ANTLR 是用 Java 编写的，安装 ANTLR 只需要从 [ANTLR 官网](https://www.antlr.org/) 下载最新的 jar 包，并放在合适的位置。该 jar 包中包含 ANTLR 工具本体和运行 ANTLR 生成的 java 代码所需的运行时库。如果你需要运行 ANTLR 生成的其他语言的代码，需要从官网额外下载对应语言的运行时库。
 
-### Ubuntu
-
 从官网下载最新的 jar 包，放在合适的位置。如：
 
 ```shell
@@ -22,14 +20,6 @@ $ curl -O https://www.antlr.org/download/antlr-4.9.2-complete.jar
 ```shell
 $ java -jar antlr-4.9.2-complete.jar
 ```
-
-### MacOS
-
-- [ ] TODO
-
-### Windows & other Linux
-
-自行探索
 
 ## ANTLR 的语法文件：`.g4`
 
