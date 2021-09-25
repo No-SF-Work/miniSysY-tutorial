@@ -8,9 +8,7 @@ bison 的最新版本是 3.7.90，发布于 2021 年 8 月 13 日。
 
 ### Ubuntu
 
-Ubuntu 官方源中的 bison 的最新版本是 3.5.1，如果你需要安装最新版本的 bison，请自行探索。
-
-- [ ] TODO: Ubuntu 16.04 和 18.04
+Ubuntu 20.04 官方源中的 bison 的最新版本是 3.5.1，Ubuntu 18.04 官方源中的 bison 的最新版本是 3.0.4，如果你需要安装最新版本的 bison，请自行探索。
 
 ```shell
 $ sudo apt install bison
@@ -18,7 +16,11 @@ $ sudo apt install bison
 
 ### MacOS
 
-- [ ] TODO
+```shell
+$ brew install bison
+```
+
+Homebrew 中 bison 的最新版本是 3.8.1，MacOS 中自带的 bison 版本是 2.3，需要手动指定环境变量以使用较新的 bison。
 
 ### Windows & other Linux
 
@@ -197,7 +199,7 @@ int main() {
 $ gcc lex.yy.c calc.tab.c driver.c -o calc
 ```
 
-调用二进制文件就可以得到一个简单的计算机应用：
+调用二进制文件就可以得到一个简单的计算器应用：
 
 ```shell
 $ ./calc

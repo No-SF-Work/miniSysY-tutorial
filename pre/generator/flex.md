@@ -8,15 +8,17 @@ flex 的最新版本是 2.6.4，发布于 2017 年 5 月 6 日。
 
 ### Ubuntu
 
-- [ ] TODO: Ubuntu 16.04 和 18.04
-
 ```shell
 $ sudo apt install flex
 ```
 
 ### MacOS
 
-- [ ] TODO
+```shell
+$ brew install flex
+```
+
+Homebrew 中 flex 的最新版本是 2.6.4，MacOS 中自带的 flex 版本是 2.5.35，需要手动指定环境变量以使用较新的 flex。
 
 ### Windows & other Linux
 
