@@ -72,3 +72,5 @@ $ xcode-select --install
 > ——邵老师
 
 当然在 Windows 上也可以安装相应的 Clang+LLVM 工具链，请自行摸索。
+
+在本实验中，我们引入了 `libsysy` 库（在 [这里](https://github.com/BUAA-SE-Compiling/miniSysY-tutorial/blob/master/files/libsysy.zip) 可以看到）为我们的程序提供 IO 方面的操作。

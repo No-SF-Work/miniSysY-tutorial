@@ -1,6 +1,6 @@
 # LLVM 工具链简介
 
-**如果你还没有完成工具链的下载，请转到 todo。**
+**如果你还没有完成工具链的下载，请先浏览 [LLVM 工具链下载](./pre/../llvm_download.md) 一节。**
 
 LLVM 工具链里有很多有意思的工具，下面我们会选择其中对实验较为重要的几个进行介绍。这一部分会涉及到后面的知识，看不懂其中的一些地方是正常的。当然如果你对 LLVM 工具链和 LLVM IR 比较熟悉，可以直接跳过此节。
 
@@ -69,7 +69,7 @@ $ echo $?
 
 `lli` 仅能运行单个 `.ll` 或 `.bc` 格式的文件，当我们想要使用别的库的时候，就需要用到 `llvm-link`。
 
-在本实验中，我们引入了 `libsysy` 库（在 [这里](http://transfer.sh/R6fivF/libsysy.zip) 可以看到）为我们的程序提供 IO 方面的操作。
+在本实验中，我们引入了 `libsysy` 库（在 [这里](https://github.com/BUAA-SE-Compiling/miniSysY-tutorial/blob/master/files/libsysy.zip) 可以看到）为我们的程序提供 IO 方面的操作。
 
 例如，我们想要输出一个 `int` 的值，则需要用到 `putint()` 这个函数。我们可以直接在 `main.c` 中调用它：
 
