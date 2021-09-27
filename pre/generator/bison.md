@@ -22,6 +22,10 @@ $ brew install bison
 
 Homebrew 中 bison 的最新版本是 3.8.1，MacOS 中自带的 bison 版本是 2.3，需要手动指定环境变量以使用较新的 bison。
 
+```shell
+$ echo 'export PATH="/usr/local/opt/bison/bin:$PATH"' >> ~/.bash_profile
+```
+
 ### Windows & other Linux
 
 自行探索
