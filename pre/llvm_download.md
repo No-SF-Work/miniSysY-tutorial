@@ -82,7 +82,9 @@ echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.bash_profile
 
 如果你使用的是 `zsh` 或者其他 shell，请自行在对应的配置文件中添加环境变量。
 
-你可以在「终端」应用中输入以下命令进行测试：
+然后重启「终端」。
+
+重启完成后，你可以在「终端」应用中输入以下命令进行测试：
 
 ```shell
 $ lli --version # 查看 LLVM 版本，若出现版本信息则说明安装成功
