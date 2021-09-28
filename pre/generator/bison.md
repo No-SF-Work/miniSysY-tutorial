@@ -8,9 +8,7 @@ bison 的最新版本是 3.7.90，发布于 2021 年 8 月 13 日。
 
 ### Ubuntu
 
-Ubuntu 官方源中的 bison 的最新版本是 3.5.1，如果你需要安装最新版本的 bison，请自行探索。
-
-- [ ] TODO: Ubuntu 16.04 和 18.04
+Ubuntu 20.04 官方源中的 bison 的最新版本是 3.5.1，Ubuntu 18.04 官方源中的 bison 的最新版本是 3.0.4，如果你需要安装最新版本的 bison，请自行探索。
 
 ```shell
 $ sudo apt install bison
@@ -18,7 +16,17 @@ $ sudo apt install bison
 
 ### MacOS
 
-- [ ] TODO
+```shell
+$ brew install bison
+```
+
+Homebrew 中 bison 的最新版本是 3.8.1，MacOS 中自带的 bison 版本是 2.3，需要手动指定环境变量以使用较新的 bison。
+
+```shell
+$ echo 'export PATH="/usr/local/opt/bison/bin:$PATH"' >> ~/.bash_profile
+```
+
+**注意** 如果你使用的是 `zsh` 或者其他种类的 shell，需要自行将环境变量的配置添加到对应的配置文件中，如 `.zshrc` 等。
 
 ### Windows & other Linux
 
@@ -53,11 +61,11 @@ number -> [0-9]+ | [0-9]+ '.' [0-9]* | [0-9]* '.' [0-9]+
 %%
 \( { return LPAREN; }
 \) { return RPAREN; }
-"+" | "-" { yylval.op = yytext[0]; return ADDOP; }
-"*" | "/" { yylval.op = yytext[0]; return MULOP; }
-[0-9]+ | [0-9]+\.[0-9]* | [0-9]*\.[0-9]+ { yylval.num = atof(yytext); return NUMBER; }
-" " | \t {  }
-\r\n | \n | \r { return RET; }
+"+"|"-" { yylval.op = yytext[0]; return ADDOP; }
+"*"|"/" { yylval.op = yytext[0]; return MULOP; }
+[0-9]+|[0-9]+\.[0-9]*|[0-9]*\.[0-9]+ { yylval.num = atof(yytext); return NUMBER; }
+" "|\t {  }
+\r\n|\n|\r { return RET; }
 %%
 ```
 
@@ -197,7 +205,7 @@ int main() {
 $ gcc lex.yy.c calc.tab.c driver.c -o calc
 ```
 
-调用二进制文件就可以得到一个简单的计算机应用：
+调用二进制文件就可以得到一个简单的计算器应用：
 
 ```shell
 $ ./calc

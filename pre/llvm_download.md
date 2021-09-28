@@ -70,19 +70,34 @@ deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main
 
 ## macOS
 
-在 macOS 上，如果你已经安装过 XCode 或 XCode Command Line Tools，则其默认已经附带了 LLVM 工具链。
+### Clang
+
+在 macOS 上，如果你已经安装过 XCode 或 XCode Command Line Tools，则其默认已经附带了 `clang`。
 
 你可以在「终端」应用中输入以下命令进行测试：
 
 ```shell
 $ clang -v # 查看 Clang 版本，若出现版本信息则说明安装成功
-$ lli --version # 查看 LLVM 版本，若出现版本信息则说明安装成功
 ```
 
 否则，你需要安装 XCode，或者运行以下命令安装 XCode Command Line Tools：
 
 ```shell
 $ xcode-select --install
+```
+
+### LLVM
+
+由于 XCode 自带的 LLVM 工具链并不完整，因此你需要手动安装 LLVM 相关的包。
+
+```shell
+$ brew install llvm
+```
+
+安装完成后，你可以在「终端」应用中输入以下命令进行测试：
+
+```shell
+$ lli --version # 查看 LLVM 版本，若出现版本信息则说明安装成功
 ```
 
 ## Windows
