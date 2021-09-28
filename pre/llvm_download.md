@@ -42,6 +42,26 @@ $ lli-10 --version # 查看版本，若出现版本信息则说明安装成功
 
 快去更新。
 
+### 如果你的 apt 因为某种原因不能用上述方式下载
+把
+```
+# i386 not available
+deb http://apt.llvm.org/focal/ llvm-toolchain-focal main
+deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal main
+# 9
+deb http://apt.llvm.org/focal/ llvm-toolchain-focal-9 main
+deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-9 main
+# 10
+deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main
+deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main
+``` 
+加到 `/etc/apt/sources.list`  
+然后在终端执行  
+`wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -`  
+然后在终端执行  
+`apt-get install clang-10 lldb-10 lld-10`
+
+
 ## Redhat/Arch/...（Ubuntu/Debian 以外的）
 
 因为问卷里面连上 2 名助教总共只有三个人用，所以不写了。通过包管理器下载 Clang 和 LLVM 即可（记得注意版本号）。
