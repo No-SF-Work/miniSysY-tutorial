@@ -37,9 +37,9 @@ $ clang -fsyntax-only -Xclang -ast-dump main.c
 $ clang -S -emit-llvm main.c -o main.ll -O0
 
 # 生成汇编（在本实验中用处不大）
-$ clang -S main.m -o main.s
+$ clang -S main.c -o main.s
 # 生成目标文件（在本实验中用处不大）
-$ clang -c main.m -o main.o
+$ clang -c main.c -o main.o
 ```
 
 请尝试在命令行中输入这些命令，并看看都输出了什么。我们会在后面对其进行详细介绍。
