@@ -183,4 +183,41 @@ RBrace
 
 ## 评测
 
-评测将在 10 月 1 日开放。你的词法分析器可以通过命令行参数指定文件路径读入文件，也可以在评测配置文件中选择使用 `cat $input | <你的程序>` 从标准输入读入，你需要将结果输出到标准输出中。
+评测在 10 月 1 日开放，10 月 10 日 23:59 截止评测。你的词法分析器可以通过命令行参数指定文件路径或从标准输入读入输入文件，你需要输出结果到标准输出中。
+
+`Dockerfile` 和 `judge.toml` 的编写格式见 [提交作业的格式与方法](https://github.com/BUAA-SE-Compiling/rurikawa/blob/master/docs/manual/submit.md)。
+
+一个配置文件的示例如下：
+
+```dockerfile
+# -- Dockerfile --
+# 这个文件负责构建包含你的程序的 Docker 容器
+
+# 使用 Java 12
+FROM openjdk:12-alpine
+# 向容器内复制文件
+COPY ./* /app/
+# 编译程序
+WORKDIR /app/
+RUN javac -d ./output ./my/path/MyClass.java
+# 将当前目录设为 /app/output
+WORKDIR /app/output
+```
+
+```toml
+# -- judge.toml --
+# 这个文件负责告诉评测姬你需要怎么评测你的程序
+
+# 我们的评测标识符是 lexer
+[jobs.lexer]
+# 使用 Dockerfile 来源，路径就是当前文件夹
+image = { source = "dockerfile", path = "." }
+
+# 假如你用的是 Java
+run = [
+  # 运行程序
+  "java my.path.MyClass $input",
+]
+```
+
+评测机提供的输入是一个文件路径 `$input`，你的词法分析器可以选择将文件作为命令行参数传入后读取文件，也可以选择使用 `cat $input | <你的程序>` 从标准输入读入。
