@@ -183,7 +183,7 @@ RBrace
 
 ## 评测
 
-评测将在 10 月 1 日开放。你的词法分析器可以通过命令行参数指定文件路径或从标准输入读入输入文件，你需要输出结果到标准输出中。
+评测在 10 月 1 日开放，10 月 10 日 23:59 截止评测。你的词法分析器可以通过命令行参数指定文件路径或从标准输入读入输入文件，你需要输出结果到标准输出中。
 
 `Dockerfile` 和 `judge.toml` 的编写格式见 [提交作业的格式与方法](https://github.com/BUAA-SE-Compiling/rurikawa/blob/master/docs/manual/submit.md)。
 
