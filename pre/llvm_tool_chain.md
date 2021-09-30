@@ -37,9 +37,9 @@ $ clang -fsyntax-only -Xclang -ast-dump main.c
 $ clang -S -emit-llvm main.c -o main.ll -O0
 
 # 生成汇编（在本实验中用处不大）
-$ clang -S main.m -o main.s
+$ clang -S main.c -o main.s
 # 生成目标文件（在本实验中用处不大）
-$ clang -c main.m -o main.o
+$ clang -c main.c -o main.o
 ```
 
 请尝试在命令行中输入这些命令，并看看都输出了什么。我们会在后面对其进行详细介绍。
@@ -113,6 +113,6 @@ $ lli out.ll
 
 ## 其他有用的工具
 
-**llc**：可以将 `.ll` 形式的 IR 编译成指定体系结构的汇编
+- **llc**：可以将 `.ll` 形式的 IR 编译成指定体系结构的汇编
 
-**opt**：LLVM 模块化的优化器和分析器。它以 LLVM 源文件为输入，对其运行指定的优化或分析，然后生成优化文件或输出分析结果。这个工具将会在挑战任务中介绍，在此不再展开。
+- **opt**：LLVM 模块化的优化器和分析器。它以 LLVM 源文件为输入，对其运行指定的优化或分析，然后生成优化文件或输出分析结果。这个工具将会在挑战任务中介绍，在此不再展开。

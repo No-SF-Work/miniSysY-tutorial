@@ -42,6 +42,26 @@ $ lli-10 --version # 查看版本，若出现版本信息则说明安装成功
 
 快去更新。
 
+### 如果你的 apt 因为某种原因不能用上述方式下载
+把
+```
+# i386 not available
+deb http://apt.llvm.org/focal/ llvm-toolchain-focal main
+deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal main
+# 9
+deb http://apt.llvm.org/focal/ llvm-toolchain-focal-9 main
+deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-9 main
+# 10
+deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main
+deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main
+``` 
+加到 `/etc/apt/sources.list`  
+然后在终端执行  
+`wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -`  
+然后在终端执行  
+`apt-get install clang-10 lldb-10 lld-10`
+
+
 ## Redhat/Arch/...（Ubuntu/Debian 以外的）
 
 因为问卷里面连上 2 名助教总共只有三个人用，所以不写了。通过包管理器下载 Clang 和 LLVM 即可（记得注意版本号）。
@@ -50,19 +70,44 @@ $ lli-10 --version # 查看版本，若出现版本信息则说明安装成功
 
 ## macOS
 
-在 macOS 上，如果你已经安装过 XCode 或 XCode Command Line Tools，则其默认已经附带了 LLVM 工具链。
+### Clang
+
+在 macOS 上，如果你已经安装过 XCode 或 XCode Command Line Tools，则其默认已经附带了 `clang`。
 
 你可以在「终端」应用中输入以下命令进行测试：
 
 ```shell
 $ clang -v # 查看 Clang 版本，若出现版本信息则说明安装成功
-$ lli --version # 查看 LLVM 版本，若出现版本信息则说明安装成功
 ```
 
 否则，你需要安装 XCode，或者运行以下命令安装 XCode Command Line Tools：
 
 ```shell
 $ xcode-select --install
+```
+
+### LLVM
+
+由于 XCode 自带的 LLVM 工具链并不完整，因此你需要手动安装 LLVM 相关的包。
+
+```shell
+$ brew install llvm
+```
+
+安装完成后，你需要在配置文件中将 LLVM 的路径添加到 `$PATH`。
+
+```shell
+echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.bash_profile
+```
+
+如果你使用的是 `zsh` 或者其他 shell，请自行在对应的配置文件中添加环境变量。
+
+然后重启「终端」。
+
+重启完成后，你可以在「终端」应用中输入以下命令进行测试：
+
+```shell
+$ lli --version # 查看 LLVM 版本，若出现版本信息则说明安装成功
 ```
 
 ## Windows

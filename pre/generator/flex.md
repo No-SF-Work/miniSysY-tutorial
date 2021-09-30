@@ -20,6 +20,12 @@ $ brew install flex
 
 Homebrew 中 flex 的最新版本是 2.6.4，MacOS 中自带的 flex 版本是 2.5.35，需要手动指定环境变量以使用较新的 flex。
 
+```shell
+$ echo 'export PATH="/usr/local/opt/flex/bin:$PATH"' >> ~/.bash_profile
+```
+
+**注意** 如果你使用的是 `zsh` 或者其他种类的 shell，需要自行将环境变量的配置添加到对应的配置文件中，如 `.zshrc` 等。
+
 ### Windows & other Linux
 
 自行探索
