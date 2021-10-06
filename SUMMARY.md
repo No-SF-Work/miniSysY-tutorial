@@ -4,7 +4,7 @@
 * [报告要求](report.md)
 * [诚信](integrity.md)
 * [pre](pre/pre.md)
-    * （阅读）LLVM 和 LLVM IR
+    * [（阅读）LLVM 和 LLVM IR](pre/llvm.md)
 		* [LLVM 工具链下载](pre/llvm_download.md)	
 		* [LLVM 工具链介绍](pre/llvm_tool_chain.md)
 		* [LLVM IR 快速上手](pre/llvm_ir_quick_primer.md)

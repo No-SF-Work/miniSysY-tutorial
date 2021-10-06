@@ -1,6 +1,6 @@
 # LLVM 工具链简介
 
-**如果你还没有完成工具链的下载，请转到 todo。**
+**如果你还没有完成工具链的下载，请先浏览 [LLVM 工具链下载](./pre/../llvm_download.md) 一节。**
 
 LLVM 工具链里有很多有意思的工具，下面我们会选择其中对实验较为重要的几个进行介绍。这一部分会涉及到后面的知识，看不懂其中的一些地方是正常的。当然如果你对 LLVM 工具链和 LLVM IR 比较熟悉，可以直接跳过此节。
 
@@ -37,9 +37,9 @@ $ clang -fsyntax-only -Xclang -ast-dump main.c
 $ clang -S -emit-llvm main.c -o main.ll -O0
 
 # 生成汇编（在本实验中用处不大）
-$ clang -S main.m -o main.s
+$ clang -S main.c -o main.s
 # 生成目标文件（在本实验中用处不大）
-$ clang -c main.m -o main.o
+$ clang -c main.c -o main.o
 ```
 
 请尝试在命令行中输入这些命令，并看看都输出了什么。我们会在后面对其进行详细介绍。
@@ -69,7 +69,7 @@ $ echo $?
 
 `lli` 仅能运行单个 `.ll` 或 `.bc` 格式的文件，当我们想要使用别的库的时候，就需要用到 `llvm-link`。
 
-在本实验中，我们引入了 `libsysy` 库（在 [这里](http://transfer.sh/R6fivF/libsysy.zip) 可以看到）为我们的程序提供 IO 方面的操作。
+在本实验中，我们引入了 `libsysy` 库（在 [这里](https://github.com/BUAA-SE-Compiling/miniSysY-tutorial/blob/master/files/libsysy.zip) 可以看到）为我们的程序提供 IO 方面的操作。
 
 例如，我们想要输出一个 `int` 的值，则需要用到 `putint()` 这个函数。我们可以直接在 `main.c` 中调用它：
 
@@ -113,6 +113,6 @@ $ lli out.ll
 
 ## 其他有用的工具
 
-**llc**：可以将 `.ll` 形式的 IR 编译成指定体系结构的汇编
+- **llc**：可以将 `.ll` 形式的 IR 编译成指定体系结构的汇编
 
-**opt**：LLVM 模块化的优化器和分析器。它以 LLVM 源文件为输入，对其运行指定的优化或分析，然后生成优化文件或输出分析结果。这个工具将会在挑战任务中介绍，在此不再展开。
+- **opt**：LLVM 模块化的优化器和分析器。它以 LLVM 源文件为输入，对其运行指定的优化或分析，然后生成优化文件或输出分析结果。这个工具将会在挑战任务中介绍，在此不再展开。
