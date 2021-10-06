@@ -16,6 +16,7 @@
     * [（阅读）评测机食用指北](pre/judge.md)
     * [（实验）词法分析小实验](pre/lab_lexer.md)
     * [（实验）语法分析小实验](pre/lab_parser.md)
+* [剩下的旅程：miniSysY](miniSysY.md)
 * [lab 1：main 与注释](lab1/lab1.md)
 	* part1：仅有 main 函数与 return 的编译器
         * [任务简介](lab1/part1_task.md)
