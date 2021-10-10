@@ -2,7 +2,7 @@
 
 ## 任务
 
-在 Part 1 中，你需要完成一个可以将仅有 `return` 语句的 `main` 函数的程序编译成 LLVM IR 的编译器。
+在 Part 1 中，你需要完成一个可以将一个 `main` 函数（仅有一条 `return` 语句）编译成 LLVM IR 的编译器。
 
 你需要支持的语法规则如下（以 `CompUnit` 为开始符号）：
 
@@ -21,7 +21,7 @@ Stmt     -> 'return' Number ';'
 Number             -> decimal-const | octal-const | hexadecimal-const
 decimal-const      -> nonzero-digit | decimal-const digit
 octal-const        -> '0' | octal-const octal-digit
-hexadecimal-const  -> hexadecimal-prefix hexadecimal-digit 
+hexadecimal-const  -> hexadecimal-prefix hexadecimal-digit
                       | hexadecimal-const hexadecimal-digit
 hexadecimal-prefix -> '0x' | '0X'
 nonzero-digit      -> '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
