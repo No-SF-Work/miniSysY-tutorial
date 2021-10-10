@@ -55,7 +55,7 @@ define dso_local i32 @main(){
 
 ```c
 int main() {
-    return 0;;
+    return 0:
 } 
 ```
 
