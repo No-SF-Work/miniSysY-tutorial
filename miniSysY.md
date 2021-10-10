@@ -2,7 +2,7 @@
 
 miniSysY 语言是在 [SysY 语言](https://gitlab.eduxiji.net/nscscc/compiler2021/-/blob/master/SysY%E8%AF%AD%E8%A8%80%E5%AE%9A%E4%B9%89.pdf) 基础上进行一些修改得到的 C 语言子集。编译原理实验课剩下的工作就是从编译一个简单的 `main()` 函数开始，逐渐扩充对 miniSysY 语言文法的支持，实现一个较为完整的编译器。由于我们没有系统地学习过汇编语言，我们只需要将 miniSysY 代码编译到 LLVM IR。
 
-**关于评测**：剩下的实验中，你需要以和之前实验相同的方式读入输入文件，并且输出到 `main.ll` 文件中，评测机会对该文件解释执行，判断编译结果是否正确。
+**关于评测**：你需要从 `$input` 读取输入文件，将编译生成的文本格式的 LLVM IR 输出到 `$ir` 中，评测机会使用 `lli` 解释执行该文件，并评测生成的 IR 代码是否正确。请在 `judge.toml` 的 `run` 中使用 `$input` 代替输入文件路径，`$ir` 代替输出文件路径。如：`./compiler < $input > $ir` 或 `./compiler $input -o $ir` 等。
 
 ## 实验概览
 
