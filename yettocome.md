@@ -4,7 +4,7 @@
 
 实验内容正在赶来的路上
 
-你可以在[<u>这里</u>](https://github.com/BUAA-SE-Compiling/Slang-tutorial)查看非正式版本
+你可以在[<u>这里</u>](https://github.com/BUAA-SE-Compiling/miniSysY-tutorial)查看非正式版本
 
 下次实验为：lab1
 
