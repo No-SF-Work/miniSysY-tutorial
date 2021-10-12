@@ -19,10 +19,9 @@
 - [lab 1：main 与注释](lab1/lab1.md)
   - part1：仅有 main 函数与 return 的编译器
     - [任务简介](lab1/part1_task.md)
-    - [实验指导](lab1/part1_help.md)
   - part2：消除注释
     - [任务简介](lab1/part2_task.md)
-    - [实验指导](lab1/part2_help.md)
+  - [实验指导](lab1/help.md)
   - [评测说明](lab1/judge.md)
 - [2：常量表达式](yettocome.md)
   - [part3：实现正号，负号，逻辑非](yettocome.md)
