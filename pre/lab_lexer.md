@@ -189,7 +189,7 @@ RBrace
 
 一个配置文件的示例如下：
 
-```dockerfile
+```
 # -- Dockerfile --
 # 这个文件负责构建包含你的程序的 Docker 容器
 
