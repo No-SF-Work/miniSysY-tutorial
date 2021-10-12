@@ -13,8 +13,8 @@
     _ [flex](pre/generator/flex.md)
     _ [bison](pre/generator/bison.md)
     - [ANTLR](pre/generator/ANTLR.md)
-    - [（阅读）评测机食用指北](pre/judge.md)
-    - [（实验）词法分析小实验](pre/lab_lexer.md)
+  - [（阅读）评测机食用指北](pre/judge.md)
+  - [（实验）词法分析小实验](pre/lab_lexer.md)
 - [剩下的旅程：miniSysY](miniSysY.md)
 - [lab 1：main 与注释](lab1/lab1.md)
   - part1：仅有 main 函数与 return 的编译器
