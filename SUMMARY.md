@@ -16,6 +16,7 @@
   - [（阅读）评测机食用指北](pre/judge.md)
   - [（实验）词法分析小实验](pre/lab_lexer.md)
 - [剩下的旅程：miniSysY](miniSysY.md)
+- [编译过程概述](lab1/compiler_structure.md)
 - [lab 1：main 与注释](lab1/lab1.md)
   - part1：仅有 main 函数与 return 的编译器
     - [任务简介](lab1/part1_task.md)
@@ -79,6 +80,7 @@
   - [case5：常量折叠](yettocome.md)
     - [实验指导](yettocome.md)
     - [任务简介](yettocome.md)
-- 参考文献及其他
+- 参考文献、致谢以及其他
   - [参考文献](ref.md)
   - [其他](others.md)
+  - [致谢](thanks.md)
