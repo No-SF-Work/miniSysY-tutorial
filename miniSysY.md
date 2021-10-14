@@ -124,6 +124,7 @@ hexadecimal-const  -> hexadecimal-prefix hexadecimal-digit
 hexadecimal-prefix -> '0x' | '0X'
 nonzero-digit      -> '1' | '2' | ... | '9'
 octal-digit        -> '0' | '1' | ... | '7'
+digit              -> '0' | nonzero-digit
 hexadecimal-digit  -> '0' | '1' | ... | '9'
                       | 'a' | 'b' | 'c' | 'd' | 'e' | 'f'
                       | 'A' | 'B' | 'C' | 'D' | 'E' | 'F'
