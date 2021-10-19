@@ -25,6 +25,8 @@ PrimaryExp -> '(' Exp ')' | Number
 UnaryOp    -> '+' | '-'
 ```
 
+其中除法取整和模运算规则与 C 语言 int 类型相同。
+
 ## 示例
 
 输入样例 1：
