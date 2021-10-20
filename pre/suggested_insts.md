@@ -1,4 +1,5 @@
 # 推荐使用的指令
+本节默认你已经掌握了一定的LLVM相关的知识。
 
 本节介绍了一些我们认为有用的 LLVM IR 的指令以及其简化的用法（比如`load`指令的完整用法为
 ``<result> = load [volatile] <ty>, <ty>* <pointer>[, align <alignment>][, !nontemporal !][, !invariant.load !<empty_node>][, !invariant.group !][, !nonnull !<empty_node>][, !dereferenceable !][, !dereferenceable_or_null !<deref_bytes_node>][, !align !][, !noundef !<empty_node>**`**）
