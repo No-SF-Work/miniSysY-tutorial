@@ -1,4 +1,4 @@
-# SSA 以及 LLVM IR 中的变量
+# LLVM 中的 SSA
 
 如果看完本节以后还有感到迷惑的地方可以看下面这个视频
 
@@ -6,7 +6,7 @@
 
 在阅读本节前我们默认你已经阅读过了 [LLVM IR 快速上手](https://buaa-se-compiling.github.io/miniSysY-tutorial/pre/llvm_ir_quick_primer.html) 一节。
 
-**为什么放在 lab2 中就讲？**
+**为什么要介绍这些内容？**
 
 在 LLVM IR 中，变量是以 SSA 形式存在的，为了生成正确的 LLVM IR 并实现我们的实验，对 SSA 的知识是必不可少的，LLVM IR 的代码有两种状态，分别是用内存空间代替`phi`的不完全 SSA 以及以`phi`形式存在的 SSA。因为 lab2 中已经涉及到了表达式相关的内容，所以本小节将对 SSA 进行简单的介绍，并指导大家设计合适的中间代码架构，以免实验到了后期因为设计问题出现大幅度重构。
 
