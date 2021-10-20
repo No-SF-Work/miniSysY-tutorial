@@ -22,4 +22,9 @@ LLVM IR 入门指南 https://github.com/Evian-Zhang/llvm-ir-tutoria
 上 https://zhuanlan.zhihu.com/p/66793637  
 下 https://zhuanlan.zhihu.com/p/66909226
 
+LLVM SSA 介绍 https://blog.csdn.net/qq_29674357/article/details/78731713
+
 自己动手写编译器 https://pandolia.net/tinyc/
+
+Implementing a JIT Compiled Language with Haskell and LLVM
+https://www.bookstack.cn/read/stephendiehl-llvm/spilt.1.llvm.md
