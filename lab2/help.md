@@ -14,13 +14,13 @@ int main() {
 
 ```llvm
 define dso_local i32 @main(){
-    %1 = sub i32 0, 15
-    %2 = sub i32 0, %1
-    %3 = sub i32 0, %2
-    %4 = sub i32 0, %3
-    %5 = sdiv i32 %4, 5
-    %6 = add i32 1, %5
-    ret i32 %6
+    %x0 = sub i32 0, 15
+    %x1 = sub i32 0, %x0
+    %x2 = sub i32 0, %x1
+    %x3 = sub i32 0, %x2
+    %x4 = sdiv i32 %x3, 5
+    %x5 = add i32 1, %x4
+    ret i32 %x5
 }
 ```
 
