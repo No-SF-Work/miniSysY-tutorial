@@ -26,12 +26,12 @@
   - [实验指导](lab1/help.md)
   - [评测说明](lab1/judge.md)
 - [lab 2：常量表达式](yettocome.md)
-  - [part3：实现正号，负号，逻辑非](yettocome.md)
-    - [实验指导](yettocome.md)
-    - [任务简介](yettocome.md)
-  - [part4：实现四则运算及模运算](yettocome.md)
-    - [实验指导](yettocome.md)
-    - [任务简介](yettocome.md)
+  - part3：实现正号、负号
+    - [任务简介](lab2/part3_task.md)
+  - part4：实现四则运算及模运算
+    - [任务简介](lab2/part4_task.md)
+  - [实验指导](lab2/help.md)
+  - [评测说明](lab2/judge.md)
 - [lab 3：局部变量](yettocome.md)
   - [part5：局部变量与赋值](yettocome.md)
     - [实验指导](yettocome.md)

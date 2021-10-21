@@ -24,4 +24,4 @@ define dso_local i32 @main(){
 }
 ```
 
-- [ ] LLVM 相关指令选择
+关于 LLVM IR 的进一步介绍：[LLVM 中的 SSA](../pre/llvm_ir_ssa.md)。
