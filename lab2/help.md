@@ -24,4 +24,4 @@ define dso_local i32 @main(){
 }
 ```
 
-关于 LLVM IR 的进一步介绍：[LLVM 中的 SSA](../pre/llvm_ir_ssa.md)。
+关于 LLVM IR 的进一步介绍：[LLVM 中的 SSA](../pre/llvm_ir_ssa.md)、[LLVM IR 中最重要的概念，以及编译器设计的提示](../pre/design_hints.md)。
