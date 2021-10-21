@@ -24,4 +24,46 @@ define dso_local i32 @main(){
 }
 ```
 
+需要注意的是：clang 默认生成的虚拟寄存器是按数字顺序编号的，LLVM 限制了所有数字编号的虚拟寄存器必须严格的从 0 开始递增，且每个函数参数和基本块都会占用一个编号。如果你不能确定怎样处理用数字命名虚拟寄存器的情况，请使用字符串命名虚拟寄存器。
+
+下面的 LLVM IR 中给出了一些 lli 解释执行成功或失败的情况：
+
+```llvm
+; 解释执行成功
+define dso_local i32 @main(){
+    %1 = sub i32 0, 15
+    %2 = sub i32 0, %1
+    %3 = add i32 0, %2
+    ret i32 %3
+}
+
+; 解释执行成功
+define dso_local i32 @main(){
+    %1 = sub i32 0, 15
+    %x = sub i32 0, %1
+    %2 = add i32 0, %x
+    ret i32 %2
+}
+
+; 解释执行失败
+; lli: test.ll:2:5: error: instruction expected to be numbered '%1'
+;     %0 = sub i32 0, 15
+define dso_local i32 @main(){
+    %0 = sub i32 0, 15
+    %1 = sub i32 0, %0
+    %2 = add i32 0, %1
+    ret i32 %2
+}
+
+; 解释执行成功
+define dso_local i32 @main(){
+  _entry:
+  ; 显式地给基本块指定一个名称
+    %0 = sub i32 0, 15
+    %1 = sub i32 0, %0
+    %2 = add i32 0, %1
+    ret i32 %2
+}
+```
+
 关于 LLVM IR 的进一步介绍：[LLVM 中的 SSA](../pre/llvm_ir_ssa.md)。
