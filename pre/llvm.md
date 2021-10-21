@@ -4,6 +4,7 @@
 - [LLVM 工具链介绍](pre/llvm_tool_chain.md)：介绍了 LLVM Project 中最常用的以及和本实验关系较大的工具
 - [LLVM IR 快速上手](pre/llvm_ir_quick_primer.md)：介绍了 LLVM IR 中最重要，最基本的结构，简单介绍了 LLVM IR 的组织方式
 - [LLVM IR SSA 介绍](pre/llvm_ir_ssa.md)：介绍了 LLVM IR 实现 SSA 的方式以及生成存取内存形式的 IR 的方法
+- [LLVM 架构中最重要的概念，以及编译器设计的提示](pre/../design_hints.md)：介绍了 LLVM 架构中的一些概念
 - 推荐指令：推荐了一些在实验中可能会用到的指令
 
 这部分会涉及到后面的知识，看不懂其中的一些地方是正常的。
