@@ -25,7 +25,7 @@
     - [任务简介](lab1/part2_task.md)
   - [实验指导](lab1/help.md)
   - [评测说明](lab1/judge.md)
-- [lab 2：常量表达式](yettocome.md)
+- [lab 2：常量表达式](lab2/lab2.md)
   - part3：实现正号、负号
     - [任务简介](lab2/part3_task.md)
   - part4：实现四则运算及模运算

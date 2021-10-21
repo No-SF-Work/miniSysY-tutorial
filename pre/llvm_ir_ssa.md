@@ -2,7 +2,7 @@
 
 如果看完本节以后还有感到迷惑的地方可以看下面这个视频
 
-[B 站源](https://www.bilibili.com/video/BV1oE411y711)     [油管源](https://www.youtube.com/watch?v=m8G_S5LwlTo)
+[B 站源](https://www.bilibili.com/video/BV1oE411y711)&emsp;&emsp;&emsp;[油管源](https://www.youtube.com/watch?v=m8G_S5LwlTo)
 
 在阅读本节前我们默认你已经阅读过了 [LLVM IR 快速上手](https://buaa-se-compiling.github.io/miniSysY-tutorial/pre/llvm_ir_quick_primer.html) 一节。
 
