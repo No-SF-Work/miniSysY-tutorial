@@ -6,9 +6,9 @@
 
 你可以在[<u>这里</u>](https://github.com/BUAA-SE-Compiling/miniSysY-tutorial)查看非正式版本
 
-下次实验为：lab2
+下次实验为：lab3
 
-正式发布时间为：十月二十日
+正式发布时间为：十月二十七日
 
 
 
