@@ -8,6 +8,7 @@
   - [LLVM 工具链介绍](pre/llvm_tool_chain.md)
   - [LLVM IR 快速上手](pre/llvm_ir_quick_primer.md)
   - [LLVM IR SSA 介绍](pre/llvm_ir_ssa.md)
+  - [LLVM IR 中最重要的概念，以及编译器设计的提示](pre/design_hints.md)
   - [推荐指令](pre/suggested_insts.md)
 - [pre](pre/pre.md)
   - [（阅读）flex/bison/ANTLR](pre/generator/generator.md)
