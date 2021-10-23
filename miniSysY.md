@@ -68,7 +68,7 @@ PrimaryExp   -> '(' Exp ')' | LVal | Number
 UnaryExp     -> PrimaryExp 
                 | Ident '(' [FuncRParams] ')'
                 | UnaryOp UnaryExp
-UnaryOp      -> '+' | '−' | '!'  // 注：保证 '!' 仅出现在 Cond 中
+UnaryOp      -> '+' | '-' | '!'  // 注：保证 '!' 仅出现在 Cond 中
 FuncRParams  -> Exp { ',' Exp }
 MulExp       -> UnaryExp 
                 | MulExp ('*' | '/' | '%') UnaryExp
