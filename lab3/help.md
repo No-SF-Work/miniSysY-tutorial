@@ -82,6 +82,6 @@ define dso_local i32 @main(){
 ```shell
 $ clang -emit-llvm -S libsysy.c -o lib.ll
 $ ./你的编译器 main.sy -o main.ll
-$ llvm-link main.ll lib.ll -o out.ll
+$ llvm-link main.ll lib.ll -S -o out.ll
 $ lli out.ll
 ```

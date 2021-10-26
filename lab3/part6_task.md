@@ -35,7 +35,7 @@ AddExp       -> MulExp
                 | AddExp ('+' | '−') MulExp
 MulExp       -> UnaryExp
                 | MulExp ('*' | '/' | '%') UnaryExp
-UnaryExp     -> PrimaryExp 
+UnaryExp     -> PrimaryExp
                 | Ident '(' [FuncRParams] ')'
                 | UnaryOp UnaryExp
 FuncRParams  -> Exp { ',' Exp }
