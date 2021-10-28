@@ -1,6 +1,6 @@
 # Lab 3 实验指导
 
-## 扩展阅读：为什么示例 IR 中使用 `alloca`、`store` 和 `load`
+## 为什么示例 IR 中使用 `alloca`、`store` 和 `load`
 
 [LLVM IR SSA 介绍](pre/llvm_ir_ssa.md)
 

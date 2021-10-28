@@ -131,7 +131,8 @@ define dso_local i32 @main(){
 
 ```c
 int main() {
-    int a = getch(), b = getch();
+    int a = getch(), b;
+    b = getch();
     putch(a);
     putch(b);
     putch(10);
