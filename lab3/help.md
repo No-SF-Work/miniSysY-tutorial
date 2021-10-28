@@ -2,7 +2,7 @@
 
 ## 为什么示例 IR 中使用 `alloca`、`store` 和 `load`
 
-[LLVM IR SSA 介绍](pre/llvm_ir_ssa.md)
+[LLVM IR SSA 介绍](../pre/llvm_ir_ssa.md)
 
 ## 在本地调试带有库函数的 LLVM IR
 
