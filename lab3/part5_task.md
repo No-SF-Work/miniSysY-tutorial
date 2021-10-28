@@ -168,7 +168,7 @@ int main() {
     const int sudo = 0;
     int rm = 5, r = 3, home = 5;
     sudo = rm -r /home*       0;
-    return sudo;
+    return 0;
 }
 ```
 
