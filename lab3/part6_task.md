@@ -18,7 +18,7 @@ ConstInitVal -> ConstExp
 ConstExp     -> AddExp
 VarDecl      -> BType VarDef { ',' VarDef } ';'
 VarDef       -> Ident
-                | Ident '=' InitVal;
+                | Ident '=' InitVal
 InitVal      -> Exp
 FuncDef      -> FuncType Ident '(' ')' Block
 FuncType     -> 'int'
