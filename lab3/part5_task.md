@@ -131,7 +131,7 @@ define dso_local i32 @main(){
     %2 = alloca i32
     %3 = alloca i32
     %4 = alloca i32
-    store i32 456, i32* %4F
+    store i32 456, i32* %4
     store i32 8456, i32* %3
     %5 = load i32, i32* %3
     %6 = load i32, i32* %4
