@@ -18,9 +18,8 @@ VarDecl      -> BType VarDef { ',' VarDef } ';'
 VarDef       -> Ident 
                 | Ident '=' InitVal
 InitVal      -> Exp 
-FuncDef      -> FuncType Ident '(' ')' Block
+FuncDef      -> FuncType Ident '(' ')' Block // 保证当前 Ident 只为 "main"
 FuncType     -> 'int'
-Ident        -> 'main'
 Block        -> '{' { BlockItem } '}'
 BlockItem    -> Decl | Stmt
 Stmt         -> LVal '=' Exp ';' 
