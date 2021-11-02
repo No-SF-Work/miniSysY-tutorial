@@ -53,6 +53,7 @@ LOrExp       -> LAndExp
 - `Cond` 中的短路求值在基础实验中不作要求，挑战实验中会有相关内容。
 - 本部分的测试用例中不会出现对 `Stmt -> Block` 的变量作用域、生命周期等相关的考察。
 - `Stmt` 中的 `if` 语句遵循就近匹配，即 `if if else` 等同于 `if { if else }`。
+- 值不为 0 的 `Cond` 表示 `true`，值为 0 的 `Cond` 表示 `false`。
 
 ## 示例
 
