@@ -52,6 +52,51 @@ define dso_local i32 @main() {
 
 ## LLVM IR 指令指导
 
-在这里 [推荐指令](../pre/suggested_insts.md) 你可以回顾之前介绍到的在本次实验中出现的一些新指令
+在这里 [推荐指令](../pre/suggested_insts.md) 你可以回顾之前介绍到的在本次实验中出现的一些新指令。
 
-- [ ] TODO: i1 和 i32 的区别以及 `zext` 介绍
+本次 lab 中将会出现多个基本块，这意味着你需要配合使用`zext`,`and`,`or`和`icmp`指令来完成控制流在基本块之间的跳转。
+
+LLVM IR 是一个强类型的语言，这意味着你无法进行隐式转换。如果想要将一个 `i1`类型的变量转换为`i32`类型的变量，你必须使用`zext`指令来进行显式的类型转换。
+
+`zext`指令的使用方法是`<result> = zext <ty> <value> to <ty2> `, 下面是一个简单的例子
+```llvm
+define i32 @main() {
+%x = add i1 0,0
+%x1 = zext i1 %x to i32
+ret i32 %x1
+```
+`icmp`是比较指令，它的使用方法是`<result> = icmp <cond> <ty> <op1>, <op2>`，需要注意的是，`icmp`的`<result>`是`i1`的。
+
+`and`和`or`是按位与/或指令 `<result> = and/or <ty> <op1>, <op2>`，将被用来实现较复杂条件语句的运算。
+
+`br`是跳转指令，分为无条件和有条件两种情况，`br i1 <cond>, label <iftrue>, label <iffalse>`（有条件跳转），`br label <dest>`（无条件跳转）
+下面是一个简单的例子
+```llvm
+define i32 @main() {
+block_a:
+    %x=add i32 0,123
+    %y=add i32 0,321 ;
+    %m=add i32 0,123
+    %n=add i32 0,123 ;
+    %res_xy = icmp eq i32 %x,%y
+    %res_mn = icmp eq i32 %m,%n
+    %cond = or i1 %res_xy,%res_mn; 你可以把 and 改成 or 看有什么变化
+    br i1 %cond ,label %block_true,label %block_false
+block_true:
+    ret i32 0
+block_false:
+    ret i32 1
+}
+```
+用`c`语言的逻辑，这段代码的意思大概是这样的
+```c
+if((x==y)&&(m==n)){
+    return 0;
+}
+return 1;
+```
+**短路求值预演**
+
+我们可以通过多个跳转指令和多个比较指令来实现条件语句中的符合条件，并实现短路运算。会在挑战实验中较为详细介绍，在此不再展开，有兴趣可以浏览这个链接。
+
+https://www.zhihu.com/question/53273670
