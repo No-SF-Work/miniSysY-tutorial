@@ -1,6 +1,7 @@
 # LLVM IR 快速上手
 
 ## 写在前面
+本节默认你已经看过了[LLVM 工具链下载](./pre/../llvm_download.md)以及[LLVM 工具链介绍](./pre/../llvm_tool_chain.md.md)两节的内容
 
 **如果你对 LLVM IR 比较熟悉，可以跳过本节**
 
@@ -267,7 +268,6 @@ define  i32 @main() {
 
 ```
 这个程序的控制流如图所示
-
 ![](./../pic/llvm_primer_if.png)
 
 可以看到，`br`指令一共在代码中出现了三次
