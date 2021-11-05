@@ -91,7 +91,7 @@ define dso_local i32 @main() {
     store i32 %4, i32* %1
     %5 = load i32, i32* %2
     %6 = load i32, i32* %1
-    %7 = icmp slt i32 %5, %6
+    %7 = icmp sle i32 %5, %6
     br i1 %7,label %8, label %10
     
 8:
