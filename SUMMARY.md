@@ -67,10 +67,10 @@
   - [part13：函数](yettocome.md)
     - [实验指导](yettocome.md)
     - [任务简介](yettocome.md)
-- [challenge：（人类是有极限的，所以你不用全做）](yettocome.md)
-  - [case1：mem2reg](yettocome.md)
-    - [实验指导](yettocome.md)
+- [challenge：（人类是有极限的，所以你不用全做）](challenge/challenge.md)
+  - case1：mem2reg
     - [任务简介](yettocome.md)
+    - [实验指导](challenge/mem2reg/help.md)
   - [case2：多维数组](yettocome.md)
     - [实验指导](yettocome.md)
     - [任务简介](yettocome.md)
