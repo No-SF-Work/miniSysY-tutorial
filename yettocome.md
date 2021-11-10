@@ -1,16 +1,8 @@
 ![](./pic/pary.gif)
 
-
-
 实验内容正在赶来的路上
 
 你可以在[<u>这里</u>](https://github.com/BUAA-SE-Compiling/miniSysY-tutorial)查看非正式版本
-
-下次实验为：lab5
-
-正式发布时间为：十一月十日
-
-
 
 ###### （以下仅助教可见）
 
