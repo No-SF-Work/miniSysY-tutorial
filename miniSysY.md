@@ -28,7 +28,6 @@ miniSysY 实验共有 8 个 lab 和一个挑战实验。
   - 函数内联（10%）
   - 短路求值（10%）
 
-
 ## miniSysY 文法
 
 为了便于你设计架构，现给出 miniSysY 的全部文法如下：
@@ -39,47 +38,47 @@ Decl         -> ConstDecl | VarDecl
 ConstDecl    -> 'const' BType ConstDef { ',' ConstDef } ';'
 BType        -> 'int'
 ConstDef     -> Ident { '[' ConstExp ']' } '=' ConstInitVal
-ConstInitVal -> ConstExp 
+ConstInitVal -> ConstExp
                 | '{' [ ConstInitVal { ',' ConstInitVal } ] '}'
 VarDecl      -> BType VarDef { ',' VarDef } ';'
 VarDef       -> Ident { '[' ConstExp ']' }
                 | Ident { '[' ConstExp ']' } '=' InitVal
-InitVal      -> Exp 
+InitVal      -> Exp
                 | '{' [ InitVal { ',' InitVal } ] '}'
 FuncDef      -> FuncType Ident '(' [FuncFParams] ')' Block
-FuncType     -> 'void' | 'int'  
+FuncType     -> 'void' | 'int'
 FuncFParams  -> FuncFParam { ',' FuncFParam }
 FuncFParam   -> BType Ident ['[' ']' { '[' Exp ']' }]
 Block        -> '{' { BlockItem } '}'
 BlockItem    -> Decl | Stmt
-Stmt         -> LVal '=' Exp ';' 
-                | [Exp] ';' 
+Stmt         -> LVal '=' Exp ';'
+                | [Exp] ';'
                 | Block
                 | 'if' '(' Cond ')' Stmt [ 'else' Stmt ]
                 | 'while' '(' Cond ')' Stmt
-                | 'break' ';' 
+                | 'break' ';'
                 | 'continue' ';'
                 | 'return' [Exp] ';'
 Exp          -> AddExp
 Cond         -> LOrExp
 LVal         -> Ident {'[' Exp ']'}
 PrimaryExp   -> '(' Exp ')' | LVal | Number
-UnaryExp     -> PrimaryExp 
+UnaryExp     -> PrimaryExp
                 | Ident '(' [FuncRParams] ')'
                 | UnaryOp UnaryExp
 UnaryOp      -> '+' | '-' | '!'  // 注：保证 '!' 仅出现在 Cond 中
 FuncRParams  -> Exp { ',' Exp }
-MulExp       -> UnaryExp 
+MulExp       -> UnaryExp
                 | MulExp ('*' | '/' | '%') UnaryExp
-AddExp       -> MulExp 
+AddExp       -> MulExp
                 | AddExp ('+' | '−') MulExp
-RelExp       -> AddExp 
+RelExp       -> AddExp
                 | RelExp ('<' | '>' | '<=' | '>=') AddExp
-EqExp        -> RelExp 
+EqExp        -> RelExp
                 | EqExp ('==' | '!=') RelExp
-LAndExp      -> EqExp 
+LAndExp      -> EqExp
                 | LAndExp '&&' EqExp
-LOrExp       -> LAndExp 
+LOrExp       -> LAndExp
                 | LOrExp '||' LAndExp
 ConstExp     -> AddExp  // 在语义上额外约束这里的 AddExp 必须是一个可以在编译期求出值的常量
 ```
@@ -106,6 +105,7 @@ Digit    -> '0' | '1' | ... | '9'
 ```
 
 **对于同名标识符的规定**：
+
 - 全局变量和局部变量的作用域可以重叠，重叠部分局部变量优先；
 - 同名局部变量的作用域不能重叠；
 - 变量名可以与函数名相同。
@@ -118,7 +118,7 @@ Number 可以表示八进制、十进制、十六进制数字，文法如下：
 Number             -> decimal-const | octal-const | hexadecimal-const
 decimal-const      -> nonzero-digit | decimal-const digit
 octal-const        -> '0' | octal-const octal-digit
-hexadecimal-const  -> hexadecimal-prefix hexadecimal-digit 
+hexadecimal-const  -> hexadecimal-prefix hexadecimal-digit
                       | hexadecimal-const hexadecimal-digit
 hexadecimal-prefix -> '0x' | '0X'
 nonzero-digit      -> '1' | '2' | ... | '9'
@@ -148,8 +148,8 @@ hexadecimal-digit  -> '0' | '1' | ... | '9'
 
 - `ConstDef` 用于定义常量。在 `Ident` 后、`=` 之前是可选的数组维度和各维长度的定义部分，在 `=` 之后是初始值。
 - `ConstDef` 的数组维度和各维长度的定义部分不存在时，表示定义单个变量。此时 `=` 右边必须是单个初始数值。
-- `ConstDef` 的数组维度和各维长度的定义部分存在时，表示定义数组。其语义和 C 语言一致，**miniSysY 基础实验只要求支持一维数组和二维数组**。比如[2*3][8/2]表示二维数组，第一和第二维长度分别为 6 和 4，每维的下界从 0 编号。 `ConstDef` 中表示各维长度的 `ConstExp` 都必须能在编译时求值到非负整数。在声明数组时各维长度都需要显式给出，而不允许是未知的。
-- 当 `ConstDef` 定义的是数组时，`=` 右边的 `ConstInitVal` 表示常量初始化器。`ConstInitVal` 中的 `ConstExp` 是能在编译时求值的 `int` 型表达式，其中可以引用已定义的符号常量。
+- `ConstDef` 的数组维度和各维长度的定义部分存在时，表示定义数组。其语义和 C 语言一致，**miniSysY 基础实验只要求支持一维数组和二维数组**。比如[2\*3][8/2]表示二维数组，第一和第二维长度分别为 6 和 4，每维的下界从 0 编号。 `ConstDef` 中表示各维长度的 `ConstExp` 都必须能在编译时求值到非负整数。在声明数组时各维长度都需要显式给出，而不允许是未知的。
+- 当 `ConstDef` 定义的是数组时，`=` 右边的 `ConstInitVal` 表示常量初始化器。全局常量数组的 `ConstInitVal` 中的 `ConstExp` 必须是常量表达式。局部常量数组的 `ConstInitVal` 中的 `ConstExp` 必须是能在编译时求值的 `int` 型表达式。
 - `ConstInitVal` 初始化器必须是以下三种情况之一：
   - 一对花括号 `{}`，表示所有元素初始为 0；
   - 数组维数和各维长度完全对应的初始值，如 `int a[3] = {1, 2, 3};`、`int a[3][2] = { {1, 2}, {3, 4}, {5, 6} };`；
@@ -159,8 +159,8 @@ hexadecimal-digit  -> '0' | '1' | ... | '9'
 
 - `VarDef` 用于定义变量。当不含有 `=` 和初始值时，其运行时实际初值未定义。
 - `VarDef` 的数组维度和各维长度的定义部分不存在时，表示定义单个变量。存在时，和 `ConstDef` 类似，表示定义数组。
-- 当 `VarDef` 含有 `=` 和初始值时， `=` 右边的 `InitVal` 和 `ConstInitVal` 的结构要求相同，唯一的不同是 `ConstInitVal` 中的表达式是 `ConstExp` 常量表达式，而 `InitVal` 中的表达式可以是当前上下文合法的任何 `Exp`。
-- `VarDef` 中表示各维长度的 `ConstExp` 必须能求值到**非负整数**，`InitVal` 中的初始值为 `Exp`，其中可以引用变量。
+- `VarDef` 中表示各维长度的 `ConstExp` 必须能求值到**非负整数**。
+- 全局变量数组的 `InitVal` 中的 `Exp` 必须是常量表达式。局部变量数组 `InitVal` 中的 `Exp` 可以是任何符合语义的表达式。
 
 ### `FuncFParam`
 
@@ -172,8 +172,8 @@ hexadecimal-digit  -> '0' | '1' | ... | '9'
 ### `FuncDef`
 
 - `FuncDef` 表示函数定义。其中的 `FuncType` 指明返回类型。
-    - 当返回类型为 `int` 时，函数内所有分支都应当含有带有 `Exp` 的 `return` 语句。不含有 `return` 语句的分支的返回值未定义；
-    - 当返回值类型为 `void` 时，函数内只能出现不带返回值的 `return` 语句。
+  - 当返回类型为 `int` 时，函数内所有分支都应当含有带有 `Exp` 的 `return` 语句。不含有 `return` 语句的分支的返回值未定义；
+  - 当返回值类型为 `void` 时，函数内只能出现不带返回值的 `return` 语句。
 
 ### `Block`
 
@@ -215,26 +215,25 @@ hexadecimal-digit  -> '0' | '1' | ... | '9'
    ```
 3. `int getarray(int []);`：输入一串整数，第 1 个整数代表后续要输入的整数个数，该个数通过返回值返回；后续的整数通过传入的数组参数返回。`getarray()` 不会检查调用者提供的数组是否有足够的空间容纳输入的一串整数。
    ```c
-   int a[10][10]; 
-   int n; 
+   int a[10][10];
+   int n;
    n = getarray(a[0]);
    ```
 4. `void putint(int);`：输出一个整数的值。
    ```c
-   int n = 10; 
-   putint(n); 
+   int n = 10;
+   putint(n);
    putint(11);
    ```
 5. `void putch(int);`：输出一个 ASCII 码对应的字符。传入的整数参数取值范围为 `0~255`。
    ```c
-   int n = 10; 
+   int n = 10;
    putch(n);
    ```
 6. `void putarray(int, int[]);`
    第 1 个参数表示要输出的整数个数（假设为 N），后面应该跟上要输出的 N 个整数的数组。`putarray()` 在输出时会在整数之间安插空格。
    ```c
-   int n = 2; 
-   int a[2] = {2, 3}; 
+   int n = 2;
+   int a[2] = {2, 3};
    putarray(n, a);
    ```
-
