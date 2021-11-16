@@ -81,7 +81,7 @@ block_a:
     %n=add i32 0,123 ;
     %res_xy = icmp eq i32 %x,%y
     %res_mn = icmp eq i32 %m,%n
-    %cond = or i1 %res_xy,%res_mn; 你可以把 and 改成 or 看有什么变化
+    %cond = and i1 %res_xy,%res_mn; 你可以把 and 改成 or 看有什么变化
     br i1 %cond ,label %block_true,label %block_false
 block_true:
     ret i32 0
