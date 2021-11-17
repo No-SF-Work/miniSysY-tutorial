@@ -62,7 +62,7 @@ LOrExp       -> LAndExp
 - `ConstInitVal` 初始化器必须是以下三种情况之一：
   - 一对花括号 `{}`，表示所有元素初始为 0；
   - 数组维数和各维长度完全对应的初始值，如 `int a[3] = {1, 2, 3};`、`int a[3][2] = { {1, 2}, {3, 4}, {5, 6} };`；
-  - 花括号中初始值少于对应维度元素个数，该维其余部分将被隐式初始化为 0，如 `int a[5] = {1, 2};`、`int a[4][3] = { {1, 2, 3}, {4, 5}, {} };`。
+  - 花括号中初始值少于对应维度元素个数，该维其余部分将被隐式初始化为 0，如 `int a[5] = {1, 2};`、`int a[4][4] = { {1, 2, 3}, {4, 5}, {} };`。
 
 ### `VarDef`
 
@@ -90,11 +90,11 @@ LOrExp       -> LAndExp
 
 ## LLVM IR 中数组的初始化
 
-> 你也可以选择不采用以下介绍的实现方式，使用 clang 编译示例代码，模仿实现 clang 生成的 LLVM IR 的数组初始化方式。
+> 你可以不采用以下介绍的实现方式，自己编写测试代码并使用 clang 编译到 LLVM IR，模仿实现 clang 生成的 LLVM IR 中的数组初始化方式。
 
 - 局部数组：调用 C 语言库函数 `memset(pointer, 0, size * sizeof(int))` 将数组元素全部置为 0，其中 `pointer` 为指向数组基址的指针，`size` 为数组容量，`sizeof(int)` 为 4。然后使用 `store` 指令将初始化器中的元素存入数组的对应位置。
   - 评测机已对 `memset` 提供支持，你可以在 IR 中声明后直接调用。
-- 全局数组：在全局区进行相应的声明和初始化，格式为 TODO
+- 全局数组：在全局区进行相应的声明和初始化。你可以使用如下的语法对一维数组进行初始化：`@arr = dso_local global [3 x i32] [i32 1, i32 2, i32 3]`。对于二维数组，你需要对其中包含的每一个一维数组进行初始化：`@arr = dso_local global [2 x [2 x i32]] [[2 x i32] [i32 1, i32 2], [2 x i32] [i32 3, i32 0]]`。你可以使用 `zeroinitializer` 将一个数组中的元素全部置为 0。
 
 ## 示例
 
@@ -184,7 +184,7 @@ define dso_local i32 @main() {
 
 ```cpp
 const int c[2][1] = {{1}, {3}};
-int b[2][3] = {{1}};
+int b[2][3] = {{1}}, e[4][4];
 int d[5], a[3] = {1, 2};
 int main() {
     putint(c[1][0] + b[0][0] + c[0][0] + a[1] + d[4]);
@@ -199,7 +199,8 @@ declare void @memset(i32*  ,i32 ,i32 )
 declare void @putint(i32 )
 
 @c = dso_local constant [2 x [1 x i32]] [[1 x i32] [i32 1], [1 x i32] [i32 3]]
-@b = dso_local global [2 x [3 x i32]] [[3 x i32] [i32 1, i32 0, i32 0], [3 x i32] [i32 0, i32 0, i32 0]]
+@b = dso_local global [2 x [3 x i32]] [[3 x i32] [i32 1, i32 0, i32 0], [3 x i32] zeroinitializer]
+@e = dso_local global [4 x [4 x i32]] zeroinitializer 
 @d = dso_local global [5 x i32] zeroinitializer 
 @a = dso_local global [3 x i32] [i32 1, i32 2, i32 0]
 
