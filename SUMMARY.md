@@ -54,19 +54,19 @@
 - [lab 8：函数](lab8/lab8.md)
   - [part13：函数](lab8/part13_task.md)
   - [评测说明](lab8/judge.md)
-- [challenge：（人类是有极限的，所以你不用全做）](yettocome.md)
-  - [case1：mem2reg](yettocome.md)
-    - [实验指导](yettocome.md)
-    - [任务简介](yettocome.md)
-  - [case2：多维数组](yettocome.md)
-    - [实验指导](yettocome.md)
-    - [任务简介](yettocome.md)
-  - [case3：函数内联](yettocome.md)
-    - [实验指导](yettocome.md)
-    - [任务简介](yettocome.md)
-  - [case4：短路求值](yettocome.md)
-    - [实验指导](yettocome.md)
-    - [任务简介](yettocome.md)
+- [challenge：人类是有极限的，你不用全做]
+  - [case1：mem2reg]
+    - [实验指导](challenge/mem2reg/help.md)
+    - [任务简介](challenge/mem2reg/task.md)
+  - [case2：多维数组]
+    - [实验指导]
+    - [任务简介]
+  - [case3：函数内联]
+    - [实验指导]
+    - [任务简介]
+  - [case4：短路求值]
+    - [实验指导](challenge/shortcircuit/help.md)
+    - [任务简介](challenge/shortcircuit/task.md)
 - 参考文献、致谢以及其他
   - [参考文献](ref.md)
   - [其他](others.md)
