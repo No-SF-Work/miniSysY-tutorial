@@ -90,7 +90,11 @@ LOrExp       -> LAndExp
 
 ## LLVM IR 中数组的初始化
 
-TODO
+> 你也可以选择不采用以下介绍的实现方式，使用 clang 编译示例代码，模仿实现 clang 生成的 LLVM IR 的数组初始化方式。
+
+- 局部数组：调用 C 语言库函数 `memset(pointer, 0, size * sizeof(int))` 将数组元素全部置为 0，其中 `pointer` 为指向数组基址的指针，`size` 为数组容量，`sizeof(int)` 为 4。然后使用 `store` 指令将初始化器中的元素存入数组的对应位置。
+  - 评测机已对 `memset` 提供支持，你可以在 IR 中声明后直接调用。
+- 全局数组：在全局区进行相应的声明和初始化，格式为 TODO
 
 ## 示例
 
@@ -110,7 +114,62 @@ int main() {
 示例 IR 1：
 
 ```llvm
-
+declare void @putint(i32)
+declare void @memset(i32*, i32, i32)
+define dso_local i32 @main() {
+    %1 = alloca [2 x [2 x i32]]
+    %2 = alloca [2 x [2 x i32]]
+    %3 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %2, i32 0, i32 0
+    %4 = getelementptr [2 x i32],[2 x i32]* %3, i32 0, i32 0
+    store i32 1, i32* %4
+    %5 = getelementptr i32,i32* %4, i32 1
+    store i32 0, i32* %5
+    %6 = getelementptr i32,i32* %4, i32 2
+    store i32 2, i32* %6
+    %7 = getelementptr i32,i32* %4, i32 3
+    store i32 3, i32* %7
+    %8 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %2, i32 0, i32 0
+    %9 = add i32 0, 0
+    %10 = mul i32 %9, 2
+    %11 = getelementptr [2 x i32],[2 x i32]* %8, i32 0, i32 0
+    %12 = add i32 %10, 0
+    %13 = getelementptr i32,i32* %11, i32 %12
+    %14 = load i32, i32* %13
+    %15 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %2, i32 0, i32 0
+    %16 = add i32 0, 2
+    %17 = mul i32 %16, 2
+    %18 = getelementptr [2 x i32],[2 x i32]* %15, i32 0, i32 0
+    %19 = add i32 %17, 1
+    %20 = getelementptr i32,i32* %18, i32 %19
+    %21 = load i32, i32* %20
+    %22 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %1, i32 0, i32 0
+    %23 = getelementptr [2 x i32],[2 x i32]* %22, i32 0, i32 0
+    call void @memset(i32*  %23,i32 0,i32 16)
+    store i32 %14, i32* %23
+    %24 = getelementptr i32,i32* %23, i32 1
+    store i32 %21, i32* %24
+    %25 = getelementptr i32,i32* %23, i32 2
+    store i32 5, i32* %25
+    %26 = getelementptr i32,i32* %23, i32 3
+    store i32 6, i32* %26
+    %27 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %1, i32 0, i32 0
+    %28 = add i32 0, 1
+    %29 = mul i32 %28, 2
+    %30 = getelementptr [2 x i32],[2 x i32]* %27, i32 0, i32 0
+    %31 = add i32 %29, 1
+    %32 = getelementptr i32,i32* %30, i32 %31
+    %33 = load i32, i32* %32
+    %34 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %2, i32 0, i32 0
+    %35 = add i32 0, 1
+    %36 = mul i32 %35, 2
+    %37 = getelementptr [2 x i32],[2 x i32]* %34, i32 0, i32 0
+    %38 = add i32 %36, 0
+    %39 = getelementptr i32,i32* %37, i32 %38
+    %40 = load i32, i32* %39
+    %41 = add i32 %33, %40
+    call void @putint(i32 %41)
+    ret i32 0
+}
 ```
 
 输出样例 1：
@@ -124,10 +183,11 @@ int main() {
 样例程序 2：
 
 ```cpp
-const int c[2][2] = {{1, 2}, {3}};
-int b[2][1] = {{1}};
+const int c[2][1] = {{1}, {3}};
+int b[2][3] = {{1}};
+int d[5], a[3] = {1, 2};
 int main() {
-    putint(c[1][1] + b[0][0] + c[0][1] + b[1][0]);
+    putint(c[1][0] + b[0][0] + c[0][0] + a[1] + d[4]);
     return 0;
 }
 ```
@@ -135,13 +195,58 @@ int main() {
 示例 IR 2：
 
 ```llvm
+declare void @memset(i32*  ,i32 ,i32 )
+declare void @putint(i32 )
+
+@c = dso_local constant [2 x [1 x i32]] [i32 1, i32 3]
+@b = dso_local global [2 x [3 x i32]] [[3 x i32] [i32 1, i32 0, i32 0], [3 x i32] [i32 0, i32 0, i32 0]]
+@d = dso_local global [5 x i32] zeroinitializer 
+@a = dso_local global [3 x i32] [i32 1, i32 2, i32 0]
+
+define dso_local i32 @main() {
+    %1 = getelementptr [2 x [1 x i32]], [2 x [1 x i32]]* @c, i32 0, i32 0
+    %2 = add i32 0, 1
+    %3 = mul i32 %2, 1
+    %4 = getelementptr [1 x i32], [1 x i32]* %1, i32 0, i32 0
+    %5 = add i32 %3, 0
+    %6 = getelementptr i32, i32* %4, i32 %5
+    %7 = load i32, i32* %6
+    %8 = getelementptr [2 x [3 x i32]], [2 x [3 x i32]]* @b, i32 0, i32 0
+    %9 = add i32 0, 0
+    %10 = mul i32 %9, 3
+    %11 = getelementptr [3 x i32], [3 x i32]* %8, i32 0, i32 0
+    %12 = add i32 %10, 0
+    %13 = getelementptr i32, i32* %11, i32 %12
+    %14 = load i32, i32* %13
+    %15 = add i32 %7, %14
+    %16 = getelementptr [2 x [1 x i32]], [2 x [1 x i32]]* @c, i32 0, i32 0
+    %17 = add i32 0, 0
+    %18 = mul i32 %17, 1
+    %19 = getelementptr [1 x i32], [1 x i32]* %16, i32 0, i32 0
+    %20 = add i32 %18, 0
+    %21 = getelementptr i32, i32* %19, i32 %20
+    %22 = load i32, i32* %21
+    %23 = add i32 %15, %22
+    %24 = getelementptr [3 x i32], [3 x i32]* @a, i32 0, i32 0
+    %25 = add i32 0, 1
+    %26 = getelementptr i32, i32* %24, i32 %25
+    %27 = load i32, i32* %26
+    %28 = add i32 %23, %27
+    %29 = getelementptr [5 x i32], [5 x i32]* @d, i32 0, i32 0
+    %30 = add i32 0, 4
+    %31 = getelementptr i32, i32* %29, i32 %30
+    %32 = load i32, i32* %31
+    %33 = add i32 %28, %32
+    call void @putint(i32 %33)
+    ret i32 0
+}
 
 ```
 
 输出样例 2：
 
 ```c
-3
+7
 ```
 
 ### 样例 3

@@ -53,6 +53,8 @@ LOrExp       -> LAndExp
 
 ## 示例
 
+~~示例 IR 中的基本块跳转有点乱，是历史遗留问题~~
+
 ### 样例 1
 
 样例程序 1：
@@ -156,7 +158,71 @@ int main() {
 示例 IR 2：
 
 ```llvm
+declare void @putch(i32 )
+define dso_local i32 @main() {
+    %1 = alloca i32
+    %2 = alloca i32
+    store i32 1, i32* %2
+    br label %3
 
+3:
+    %4 = load i32, i32* %2
+    %5 = icmp slt i32 %4, 12
+    br i1 %5, label %8, label %7
+
+6:
+    store i32 0, i32* %1
+    br label %9
+
+7:
+    ret i32 0
+8:
+    br label %6
+
+9:
+    %10 = load i32, i32* %1
+    %11 = load i32, i32* %2
+    %12 = mul i32 2, %11
+    %13 = sub i32 %12, 1
+    %14 = icmp slt i32 %10, %13
+    br i1 %14, label %24, label %21
+
+15:
+    %16 = load i32, i32* %1
+    %17 = sdiv i32 %16, 3
+    %18 = mul i32 %17, 3
+    %19 = sub i32 %16, %18
+    %20 = icmp eq i32 %19, 1
+    br i1 %20, label %31, label %30
+
+21:
+    call void @putch(i32 10)
+    %22 = load i32, i32* %2
+    %23 = add i32 %22, 1
+    store i32 %23, i32* %2
+    br label %3
+
+24:
+    br label %15
+
+25:
+    %26 = add i32 48, 1
+    call void @putch(i32 %26)
+    br label %27
+
+27:
+    %28 = load i32, i32* %1
+    %29 = add i32 %28, 1
+    store i32 %29, i32* %1
+    br label %9
+
+30:
+    call void @putch(i32 48)
+    br label %27
+
+31:
+    br label %25
+}
 ```
 
 输出样例 2:
