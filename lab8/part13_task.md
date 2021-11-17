@@ -177,7 +177,6 @@ int main() {
 示例 IR 2：
 
 ```llvm
-
 declare i32 @getarray(i32*)
 declare void @putarray(i32, i32*)
 

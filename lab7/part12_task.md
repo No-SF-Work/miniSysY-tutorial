@@ -198,7 +198,7 @@ int main() {
 declare void @memset(i32*  ,i32 ,i32 )
 declare void @putint(i32 )
 
-@c = dso_local constant [2 x [1 x i32]] [i32 1, i32 3]
+@c = dso_local constant [2 x [1 x i32]] [[1 x i32] [i32 1], [1 x i32] [i32 3]]
 @b = dso_local global [2 x [3 x i32]] [[3 x i32] [i32 1, i32 0, i32 0], [3 x i32] [i32 0, i32 0, i32 0]]
 @d = dso_local global [5 x i32] zeroinitializer 
 @a = dso_local global [3 x i32] [i32 1, i32 2, i32 0]
@@ -240,7 +240,6 @@ define dso_local i32 @main() {
     call void @putint(i32 %33)
     ret i32 0
 }
-
 ```
 
 输出样例 2：
