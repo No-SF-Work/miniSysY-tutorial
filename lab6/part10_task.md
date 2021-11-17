@@ -2,7 +2,7 @@
 
 在 Part 10 中，你的编译器需要支持 `while` 循环。
 
-保证测试用例不会出现死循环。
+保证测试用例在正确的控制流下不会出现死循环。
 
 你需要支持的语法规则如下（以 `CompUnit` 为开始符号）：
 
@@ -74,7 +74,41 @@ int main() {
 示例 IR 1：
 
 ```llvm
+declare i32 @getint()
+declare void @putint(i32)
+declare void @putch(i32)
+define dso_local i32 @main() {
+    %1 = alloca i32
+    %2 = alloca i32
+    %3 = alloca i32
+    %4 = call i32 @getint()
+    store i32 %4, i32* %3
+    store i32 0, i32* %2
+    store i32 0, i32* %1
+    br label %5
 
+5:
+    %6 = load i32, i32* %2
+    %7 = load i32, i32* %3
+    %8 = icmp slt i32 %6, %7
+    br i1 %8, label %9, label %16
+
+9:
+    %10 = load i32, i32* %2
+    %11 = add i32 %10, 1
+    store i32 %11, i32* %2
+    %12 = load i32, i32* %1
+    %13 = load i32, i32* %2
+    %14 = add i32 %12, %13
+    store i32 %14, i32* %1
+    %15 = load i32, i32* %1
+    call void @putint(i32 %15)
+    call void @putch(i32 10)
+    br label %5
+
+16:
+    ret i32 0
+}
 ```
 
 输入样例 1：
@@ -91,6 +125,7 @@ int main() {
 6
 10
 15
+
 ```
 
 ### 样例 2
