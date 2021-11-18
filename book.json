@@ -11,7 +11,8 @@
         "-highlight",
         "prism",
         "prism-themes",
-        "theme-comscore"
+        "theme-comscore",
+        "katex-pp"
     ],
     "pluginsConfig": {
         "github": {
