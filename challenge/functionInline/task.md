@@ -3,122 +3,139 @@
 函数内联是一种将函数体直接展开到调用处的一种优化技术，它可以由手工指定，或者经由编译优化完成。内联是一种重要的优化技术，其好处在于消除函数的调用开销（压栈，保护/恢复），但是内联展开并不一定会导致函数性能的提升，他可能导致生成的代码的体积膨胀，并且影响指令缓存的命中率。
 
 在本个挑战实验中，你应该对输入的源代码中的函数进行内联，策略如下：
-- 保留`main`函数
+
+- 保留 `main` 函数
 - 内联**所有可以内联**的函数
 - 保留无法内联的函数（递归函数）
 
 这意味着你不用考虑内联前后的程序性能问题，只需要考虑函数是否能够被内联而不改变程序语义/造成程序错误。
 
-一些 c 语言的例子（当然，你需要输出的是`.ll`格式的文件）
+一些 C 语言的例子（当然，你需要输出的是 `.ll` 格式的文件）
 
 例 1
-```c
-int a(){
+
+```cpp
+int a() {
     return 1;
 }
 
-int b(){
-    return 2+a();
+int b() {
+    return 2 + a();
 }
 
-int c(){
-    return 3+b();
+int c() {
+    return 3 + b();
 }
 
-int main(){
-    return 4+c();
+int main() {
+    return 4 + c();
 }
 ```
+
 在经过内联以后，应该变为
-```c
+
+```cpp
 int main(){
-    return 10;
+    return 4 + 3 + 2 + 1;
 }
 ```
 
 例 2
 
-```c
-int foo(int t){
-    if(t>0)return foo(t-1)+t; 
-    return 0; //递归基
+```cpp
+int foo(int t) {
+    if (t > 0)
+        return foo(t - 1) + t;
+    return 0;
 }
-int bar(){
-    return foo(10)+123;
+
+int bar() {
+    return foo(10) + 123;
 }
-int main(){
+
+int main() {
    putint(bar());
    return 0;
 }
 ```
+
 在经过内联以后，应该变为
-```c
-int main(){
-    putint(foo(10)+123);
+
+```cpp
+int main() {
+    putint(foo(10) + 123);
     return 0;
 }
 ```
 
 例 3
 
-```c
-int a=10;//注意这是全局变量
+```cpp
+int a = 10;
 
-void foo(){
-    a=a+1;
+void foo() {
+    a = a + 1;
 }
 
-int bar(int c){
-    if(c==1)return 10;
-    else return 5;
+int bar(int c) {
+    if (c == 1)
+        return 10;
+    else
+        return 5;
 }
 
 int main(){
-    int b=5;
+    int b = 5;
     foo();
-    foo(); 
-    b=a+bar(2);
+    foo();
+    b = a + bar(2);
     return b;
 }
 ```
+
 在经过内联以后，应该变为
-```
-int a=10;
-int main(){
-    int b =5;
-    a=a+1;
+
+```cpp
+int a = 10;
+int main() {
+    int b = 5;
+    a = a + 1;
     int a_tmp_var;
-    if(2==1)a_tmp_var=10;
-    else a_tmp_var=5;
-    b=a+a_tmp_var;
+    if (2 == 1)
+        a_tmp_var = 10;
+    else
+        a_tmp_var = 5;
+    b = a + a_tmp_var;
     return b;
 }
 ```
 
 例 4
 
-```c
-int foo(int t){
-    if(t==1){
+```cpp
+int foo(int t) {
+    if(t == 1){
         return 5;
-    }else{
+    } else {
         return 10;
     }
 }
 
-int main(){
-    return foo(1)+foo(0);
+int main() {
+    return foo(1) + foo(0);
 }
 ```
+
 在经过内联以后，应该变为
+
 ```
-int main(){
+int main() {
     int tmp_val_in_llvm_ir;
 
 }
 ```
 
-我们会通过你输出的`.ll`格式文件中的函数的数量来检查你是否进行了内联，会通过你输出的`.ll`格式的文件经过`lli`模拟执行的结果来验证你内联的正确性。
+我们会通过你输出的 `.ll` 格式文件中的函数的数量来检查你是否进行了内联，会通过你输出的 `.ll` 格式的文件经过 `lli` 解释执行的结果来验证你内联的正确性。
 
 具体指导参考 [函数内联实验指导](help.md)。
 
