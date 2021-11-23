@@ -127,11 +127,21 @@ int main() {
 ```
 
 在经过内联以后，应该变为
-
-```
-int main() {
-    int tmp_val_in_llvm_ir;
-
+```c
+int main(){
+    int tmp_val_in_llvm_ir_a;
+    int tmp_val_in_llvm_ir_b;
+    if(1==1){
+        tmp_val_in_llvm_ir_a=5;
+    }else{
+        tmp_val_in_llvm_ir_a=10
+    }
+    if(0==1){
+        tmp_val_in_llvm_ir_b=5;
+    }else{
+        tmp_val_in_llvm_ir_b=10;
+    }
+    return tmp_val_in_llvm_ir_a+tmp_val_in_llvm_ir_b;
 }
 ```
 
