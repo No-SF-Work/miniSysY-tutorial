@@ -100,6 +100,7 @@ int a = 10;
 int main() {
     int b = 5;
     a = a + 1;
+    a = a + 1;
     int a_tmp_var;
     if (2 == 1)
         a_tmp_var = 10;
@@ -114,7 +115,7 @@ int main() {
 
 ```cpp
 int foo(int t) {
-    if(t == 1){
+    if (t == 1) {
         return 5;
     } else {
         return 10;
@@ -127,21 +128,22 @@ int main() {
 ```
 
 在经过内联以后，应该变为
-```c
-int main(){
+
+```cpp
+int main() {
     int tmp_val_in_llvm_ir_a;
     int tmp_val_in_llvm_ir_b;
-    if(1==1){
-        tmp_val_in_llvm_ir_a=5;
-    }else{
-        tmp_val_in_llvm_ir_a=10
+    if (1 == 1) {
+        tmp_val_in_llvm_ir_a = 5;
+    } else {
+        tmp_val_in_llvm_ir_a = 10;
     }
-    if(0==1){
-        tmp_val_in_llvm_ir_b=5;
-    }else{
-        tmp_val_in_llvm_ir_b=10;
+    if(0 == 1) {
+        tmp_val_in_llvm_ir_b = 5;
+    } else {
+        tmp_val_in_llvm_ir_b = 10;
     }
-    return tmp_val_in_llvm_ir_a+tmp_val_in_llvm_ir_b;
+    return tmp_val_in_llvm_ir_a + tmp_val_in_llvm_ir_b;
 }
 ```
 
