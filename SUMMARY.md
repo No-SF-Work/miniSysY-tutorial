@@ -58,12 +58,11 @@
   - case1：mem2reg
     - [任务简介](challenge/mem2reg/task.md)
     - [实验指导](challenge/mem2reg/help.md)
-  - [case2：多维数组]
-    - [任务简介]
-    - [实验指导]
-  - [case3：函数内联]
-    - [任务简介]
-    - [实验指导]
+  - case2：多维数组
+    - [任务简介](challenge/multidimen/task.md)
+  - case3：函数内联
+    - [任务简介](challenge/functionInline/task.md)
+    - [实验指导](challenge/functionInline/help.md)
   - case4：短路求值
     - [任务简介](challenge/shortcircuit/task.md)
     - [实验指导](challenge/shortcircuit/help.md)
