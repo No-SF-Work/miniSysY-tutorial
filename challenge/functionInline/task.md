@@ -138,7 +138,7 @@ int main() {
     } else {
         tmp_val_in_llvm_ir_a = 10;
     }
-    if(0 == 1) {
+    if (0 == 1) {
         tmp_val_in_llvm_ir_b = 5;
     } else {
         tmp_val_in_llvm_ir_b = 10;
