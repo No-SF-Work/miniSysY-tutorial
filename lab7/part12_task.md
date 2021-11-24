@@ -105,7 +105,7 @@ LOrExp       -> LAndExp
 ```cpp
 int main() {
     int a[2][2] = {{1}, {2, 3}};
-    int e[2][2] = {{a[0][0], a[2][1]}, {5, 6}};
+    int e[2][2] = {{a[0][0], a[1][1]}, {5, 6}};
     putint(e[1][1] + a[1][0]);
     return 0;
 }
@@ -119,55 +119,54 @@ declare void @memset(i32*, i32, i32)
 define dso_local i32 @main() {
     %1 = alloca [2 x [2 x i32]]
     %2 = alloca [2 x [2 x i32]]
-    %3 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %2, i32 0, i32 0
-    %4 = getelementptr [2 x i32],[2 x i32]* %3, i32 0, i32 0
+    %3 = getelementptr [2 x [2 x i32]], [2 x [2 x i32]]* %2, i32 0, i32 0
+    %4 = getelementptr [2 x i32], [2 x i32]* %3, i32 0, i32 0
+    call void @memset(i32* %4, i32 0, i32 16)
     store i32 1, i32* %4
-    %5 = getelementptr i32,i32* %4, i32 1
-    store i32 0, i32* %5
-    %6 = getelementptr i32,i32* %4, i32 2
-    store i32 2, i32* %6
-    %7 = getelementptr i32,i32* %4, i32 3
-    store i32 3, i32* %7
-    %8 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %2, i32 0, i32 0
-    %9 = add i32 0, 0
-    %10 = mul i32 %9, 2
-    %11 = getelementptr [2 x i32],[2 x i32]* %8, i32 0, i32 0
-    %12 = add i32 %10, 0
-    %13 = getelementptr i32,i32* %11, i32 %12
-    %14 = load i32, i32* %13
-    %15 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %2, i32 0, i32 0
-    %16 = add i32 0, 2
-    %17 = mul i32 %16, 2
-    %18 = getelementptr [2 x i32],[2 x i32]* %15, i32 0, i32 0
-    %19 = add i32 %17, 1
-    %20 = getelementptr i32,i32* %18, i32 %19
-    %21 = load i32, i32* %20
-    %22 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %1, i32 0, i32 0
-    %23 = getelementptr [2 x i32],[2 x i32]* %22, i32 0, i32 0
-    call void @memset(i32*  %23,i32 0,i32 16)
-    store i32 %14, i32* %23
-    %24 = getelementptr i32,i32* %23, i32 1
-    store i32 %21, i32* %24
-    %25 = getelementptr i32,i32* %23, i32 2
-    store i32 5, i32* %25
-    %26 = getelementptr i32,i32* %23, i32 3
-    store i32 6, i32* %26
-    %27 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %1, i32 0, i32 0
-    %28 = add i32 0, 1
-    %29 = mul i32 %28, 2
-    %30 = getelementptr [2 x i32],[2 x i32]* %27, i32 0, i32 0
-    %31 = add i32 %29, 1
-    %32 = getelementptr i32,i32* %30, i32 %31
-    %33 = load i32, i32* %32
-    %34 = getelementptr [2 x [2 x i32]],[2 x [2 x i32]]* %2, i32 0, i32 0
-    %35 = add i32 0, 1
-    %36 = mul i32 %35, 2
-    %37 = getelementptr [2 x i32],[2 x i32]* %34, i32 0, i32 0
-    %38 = add i32 %36, 0
-    %39 = getelementptr i32,i32* %37, i32 %38
-    %40 = load i32, i32* %39
-    %41 = add i32 %33, %40
-    call void @putint(i32 %41)
+    %5 = getelementptr i32, i32* %4, i32 2
+    store i32 2, i32* %5
+    %6 = getelementptr i32, i32* %4, i32 3
+    store i32 3, i32* %6
+    %7 = getelementptr [2 x [2 x i32]], [2 x [2 x i32]]* %2, i32 0, i32 0
+    %8 = add i32 0, 0
+    %9 = mul i32 %8, 2
+    %10 = getelementptr [2 x i32], [2 x i32]* %7, i32 0, i32 0
+    %11 = add i32 %9, 0
+    %12 = getelementptr i32, i32* %10, i32 %11
+    %13 = load i32, i32* %12
+    %14 = getelementptr [2 x [2 x i32]], [2 x [2 x i32]]* %2, i32 0, i32 0
+    %15 = add i32 0, 1
+    %16 = mul i32 %15, 2
+    %17 = getelementptr [2 x i32], [2 x i32]* %14, i32 0, i32 0
+    %18 = add i32 %16, 1
+    %19 = getelementptr i32, i32* %17, i32 %18
+    %20 = load i32, i32* %19
+    %21 = getelementptr [2 x [2 x i32]], [2 x [2 x i32]]* %1, i32 0, i32 0
+    %22 = getelementptr [2 x i32], [2 x i32]* %21, i32 0, i32 0
+    call void @memset(i32* %22, i32 0, i32 16)
+    store i32 %13, i32* %22
+    %23 = getelementptr i32, i32* %22, i32 1
+    store i32 %20, i32* %23
+    %24 = getelementptr i32, i32* %22, i32 2
+    store i32 5, i32* %24
+    %25 = getelementptr i32, i32* %22, i32 3
+    store i32 6, i32* %25
+    %26 = getelementptr [2 x [2 x i32]], [2 x [2 x i32]]* %1, i32 0, i32 0
+    %27 = add i32 0, 1
+    %28 = mul i32 %27, 2
+    %29 = getelementptr [2 x i32], [2 x i32]* %26, i32 0, i32 0
+    %30 = add i32 %28, 1
+    %31 = getelementptr i32, i32* %29, i32 %30
+    %32 = load i32, i32* %31
+    %33 = getelementptr [2 x [2 x i32]], [2 x [2 x i32]]* %2, i32 0, i32 0
+    %34 = add i32 0, 1
+    %35 = mul i32 %34, 2
+    %36 = getelementptr [2 x i32], [2 x i32]* %33, i32 0, i32 0
+    %37 = add i32 %35, 0
+    %38 = getelementptr i32, i32* %36, i32 %37
+    %39 = load i32, i32* %38
+    %40 = add i32 %32, %39
+    call void @putint(i32 %40)
     ret i32 0
 }
 ```
