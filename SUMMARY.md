@@ -66,7 +66,8 @@
   - case4：短路求值
     - [任务简介](challenge/shortcircuit/task.md)
     - [实验指导](challenge/shortcircuit/help.md)
-- 参考文献、致谢以及其他
+- 参考文献、致谢、示例编译器以及其他
   - [参考文献](ref.md)
   - [其他](others.md)
   - [致谢](thanks.md)
+  - [示例编译器](example.md)
